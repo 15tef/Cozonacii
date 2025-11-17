@@ -5,17 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cozonaci de Vânzare</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fff8f0; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fff8f0; scroll-behavior: smooth; }
     header { text-align: center; padding: 30px; background: #d8b494; color: white; border-radius: 0 0 20px 20px; }
     h1 { margin: 0; font-size: 2.5em; }
     nav { text-align: center; background: #f4e1d2; padding: 10px; }
     nav a { margin: 0 15px; text-decoration: none; color: #5a2d0c; font-weight: bold; }
+    nav a:hover { color: #d77a5b; }
     section { padding: 30px; text-align: center; }
-    .cozonac { border: 1px solid #d8b494; padding: 15px; margin: 15px; border-radius: 12px; display: inline-block; width: 250px; }
+    .cozonac { border: 1px solid #d8b494; padding: 15px; margin: 15px; border-radius: 12px; display: inline-block; width: 250px; vertical-align: top; }
     .cozonac img { width: 100%; border-radius: 12px; }
-    .button { display: inline-block; padding: 10px 20px; margin-top: 10px; background: #d77a5b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    .payment-options button { margin: 5px; padding: 10px 15px; background: #f4e1d2; border: 1px solid #d77a5b; border-radius: 8px; cursor: pointer; }
+    .button, .pay-btn { display: inline-block; padding: 10px 20px; margin-top: 10px; background: #d77a5b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+    .button:hover, .pay-btn:hover { background-color: #b85a40; }
+    .payment-options button { margin: 5px; padding: 10px 15px; background: #f4e1d2; border: 1px solid #d77a5b; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    .payment-options button:hover { background-color: #d77a5b; color: white; }
     footer { background: #d8b494; color: white; padding: 20px; text-align: center; border-radius: 20px 20px 0 0; }
+    
+    /* Responsive pentru mobil */
+    @media (max-width: 768px) {
+      .cozonac { width: 80%; margin: 15px auto; display: block; }
+      nav a { display: block; margin: 10px 0; }
+    }
   </style>
 </head>
 <body>
@@ -33,21 +42,33 @@
 
   <section id="produse">
     <h2>Produsele noastre</h2>
-    <div class="cozonac" data-nume="Cozonac Clasic">
-      <img src="https://github.com/15tef/Cozonacii/blob/main/shutterstock_2038200146.jpg?raw=true" alt="Cozonac Clasic">
+
+ <div class="cozonac" data-nume="Cozonac Clasic">
+      <img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonac Clasic">
       <h3>Cozonac Clasic</h3>
-      <p>Delicios cu nucă și stafide</p>
-      <p>Preț: 30 RON</p>
+      <p>Cozonac simplu clasic</p>
+      <p>Preț: 70 RON</p>
+      <div class="payment-options">
+        <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
+        <button data-plata="Plata online" class="pay-btn">Plată online</button>
+      </div>
+
+
+    <div class="cozonac" data-nume="Prajitura 1">
+      <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Cozonac Clasic">
+      <h3>Prajitura 1</h3>
+      <p>Prajitura 1 </p>
+      <p>Preț: 50 RON</p>
       <div class="payment-options">
         <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
         <button data-plata="Plata online" class="pay-btn">Plată online</button>
       </div>
     </div>
-    <div class="cozonac" data-nume="Cozonac Suprem">
-      <img src="https://github.com/15tef/Cozonacii/blob/main/Cozonacul-suprem-care-se-desface-in-suvite-caiere-pale-cozonac-cu-multa-crema-de-nuca-rahat-stafide-savori-urbane-1.jpg?raw=true" alt="Cozonac Suprem">
-      <h3>Cozonac Suprem</h3>
+    <div class="cozonac" data-nume="Prajitura 2">
+      <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Cozonac Suprem">
+      <h3>Prajitura 2</h3>
       <p>Umplutură bogată de nucă și cremă</p>
-      <p>Preț: 40 RON</p>
+      <p>Preț: 60 RON</p>
       <div class="payment-options">
         <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
         <button data-plata="Plata online" class="pay-btn">Plată online</button>
@@ -76,30 +97,40 @@
 
     const payButtons = document.querySelectorAll('.pay-btn');
     payButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const produs = btn.closest('.cozonac').dataset.nume;
         const cantitate = prompt(`Câte bucăți de ${produs} doriți?`, '1');
-        if (!cantitate) return;
+        
+        if (!cantitate || isNaN(cantitate) || cantitate <= 0) {
+          alert('Te rog introdu un număr valid de bucăți.');
+          return;
+        }
+
         const plata = btn.dataset.plata;
+        const emailClient = prompt('Introdu adresa ta de email:');
+        if(!emailClient) return;
 
         const templateParams = {
           produs: produs,
           cantitate: cantitate,
-          metoda_plata: plata
+          metoda_plata: plata,
+          email: emailClient
         };
 
-        emailjs.send('Comenzi', 'template_6epkz6a', templateParams)
-          .then((response) => {
-            if(response.status === 200) {
-              alert('Comanda trimisă cu succes!');
-            } else {
-              alert('Comanda nu a putut fi trimisă. Încearcă din nou.');
-            }
-            console.log('Răspuns EmailJS:', response);
-          }, (err) => {
-            alert('Eroare la trimiterea comenzii. Încearcă din nou.');
-            console.error('FAILED...', err);
-          });
+        btn.disabled = true; // previne click multiplu
+        try {
+          const response = await emailjs.send('service_rvnfvip', 'template_6epkz6a', templateParams);
+          if(response.status === 200) {
+            alert('Comanda trimisă cu succes!');
+          } else {
+            alert('Comanda nu a putut fi trimisă. Încearcă din nou.');
+          }
+          console.log('Răspuns EmailJS:', response);
+        } catch(err) {
+          alert('Eroare la trimiterea comenzii. Încearcă din nou.');
+          console.error('FAILED...', err);
+        }
+        btn.disabled = false;
       });
     });
   </script>
