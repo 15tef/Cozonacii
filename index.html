@@ -14,33 +14,41 @@ header p { font-size:1.2em; margin-top:10px; }
 nav { display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:bold; position:sticky; top:0; z-index:100; }
 nav a { color:#5a2d0c; transition: 0.3s; cursor:pointer; }
 nav a:hover { color:#d77a5b; }
-section { padding:30px; text-align:center; display:none; }
-section.active { display:block; }
+section { padding:30px; text-align:center; display:none; opacity:0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+section.active { display:block; opacity:1; transform: translateY(0); }
+
+/* Hover animat pe produse */
 #produse .produse-container { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; }
-.cozonac { background:white; border-radius:15px; overflow:hidden; width:260px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); transition: transform 0.3s, box-shadow 0.3s; display:flex; flex-direction:column; align-items:center; }
-.cozonac:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.18);}
+.cozonac {
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  width:260px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.cozonac:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+  filter: brightness(1.05);
+}
 .cozonac img { width:100%; height:200px; object-fit:cover; }
 .cozonac h3 { margin:10px 0 5px; }
 .cozonac p { margin:5px 0; font-size:0.95em; color:#555; text-align:center; }
 .pay-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
 .pay-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
+
 .popup-form { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:flex-start; padding-top:20px; z-index:1000; opacity:0; transition:0.3s; overflow-y:auto; }
 .popup-form.active { display:flex; opacity:1; }
 .popup-content { background:#fff5ed; padding:15px; border-radius:15px; width:90%; max-width:400px; text-align:left; position:relative; transform:scale(0.85); transition:0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.2); }
 .popup-form.active .popup-content { transform:scale(1); }
 .popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
 .popup-content label { display:block; margin-top:10px; font-weight:bold; font-size:0.95em; }
-.popup-content input { 
-  width:90%;       /* mai mic decât 100% */
-  padding:6px 8px; /* mai puțin spațiu în interior */
-  margin-top:5px; 
-  border-radius:6px; 
-  border:1px solid #d8b494; 
-  font-size:0.95em; /* puțin mai mic textul */
-}
-#cantitate {
-  width:50px; 
-  text-align:center; }
+.popup-content input { width:90%; padding:6px 8px; margin-top:5px; border-radius:6px; border:1px solid #d8b494; font-size:0.95em; }
+#cantitate { width:50px; text-align:center; }
 .popup-content button { margin-top:15px; padding:10px; font-size:1em; width:100%; }
 .close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
 .notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:15px 25px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
@@ -100,7 +108,13 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 
 <section id="despre">
 <h2>Despre noi</h2>
-<p>La Cozonaci de Vânzare ne concentrăm pe calitatea fiecărui produs, folosind doar ingrediente naturale, fără conservanți sau aditivi. Fiecare cozonac și prăjitură este pregătit cu atenție, respectând rețete tradiționale și tehnici de coacere care păstrează aroma autentică. Scopul nostru este să oferim clienților experiența gustului autentic de acasă, cu produse proaspete, moi și parfumate. Ne mândrim cu faptul că fiecare comandă este tratată cu seriozitate, iar livrarea este rapidă și sigură. Clienții noștri pot fi siguri că primesc întotdeauna produse de cea mai înaltă calitate, pregătite cu pasiune și grijă pentru detalii.</p>
+<p>La Cozonaci de Vânzare ne concentrăm pe calitatea fiecărui produs.<br>
+Folosim doar ingrediente naturale, fără conservanți sau aditivi.<br>
+Fiecare cozonac și prăjitură este pregătit cu atenție, respectând rețete tradiționale și tehnici de coacere care păstrează aroma autentică.<br>
+Scopul nostru este să oferim clienților experiența gustului autentic de acasă.<br>
+Produsele sunt proaspete, moi și parfumate.<br>
+Ne mândrim cu faptul că fiecare comandă este tratată cu seriozitate, iar livrarea este rapidă și sigură.<br>
+Clienții noștri pot fi siguri că primesc întotdeauna produse de cea mai înaltă calitate, pregătite cu pasiune și grijă pentru detalii.</p>
 </section>
 
 <section id="contact">
@@ -152,12 +166,22 @@ const sections = {
 function showSection(sec){
   for(let key in sections) sections[key].classList.remove('active');
   sections[sec].classList.add('active');
+  const urlMap = {home:'#home',produse:'#produse',despre:'#despre',contact:'#contact'};
+  history.pushState(null,'',urlMap[sec]);
 }
 
 document.getElementById('linkHome').addEventListener('click', ()=>showSection('home'));
 document.getElementById('linkProduse').addEventListener('click', ()=>showSection('produse'));
 document.getElementById('linkDespre').addEventListener('click', ()=>showSection('despre'));
 document.getElementById('linkContact').addEventListener('click', ()=>showSection('contact'));
+
+window.addEventListener('popstate', ()=>{
+  const hash = location.hash.replace('#','');
+  if(sections[hash]){
+    for(let key in sections) sections[key].classList.remove('active');
+    sections[hash].classList.add('active');
+  }
+});
 
 let currentProduct='', currentPayment='', currentPrice=0;
 const popup=document.getElementById('popupForm');
@@ -219,6 +243,7 @@ document.getElementById('orderForm').addEventListener('submit', async e=>{
     alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${currentPrice*cantitate} RON\nApasă OK după efectuarea plății`);
   }
 
+  // Email către client
   const templateParamsClient = {
     to_email: emailClient,
     nume,
@@ -228,8 +253,27 @@ document.getElementById('orderForm').addEventListener('submit', async e=>{
     total_plata: currentPrice*cantitate,
     metoda_plata: currentPayment
   };
-
   await emailjs.send('service_rvnfvip','template_g7g6e4w',templateParamsClient).catch(()=>{});
+
+  // Email către proprietar
+  const templateParamsOwner = {
+    nume,
+    prenume,
+    strada,
+    numar,
+    localitate,
+    judet,
+    tara,
+    codpostal,
+    telefon,
+    emailClient,
+    produs: currentProduct,
+    cantitate,
+    total_plata: currentPrice*cantitate,
+    metoda_plata: currentPayment
+  };
+  await emailjs.send('service_rvnfvip','template_6epkz6a',templateParamsOwner).catch(()=>{});
+
   showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
   popup.classList.remove('active');
 });
