@@ -5,18 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cozonaci de Vânzare</title>
 <style>
+/* --- Stilizare generală --- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background: #fff5ed; color:#333; scroll-behavior: smooth; }
 h1,h2,h3 { margin:0; }
 a { text-decoration:none; }
 
+/* --- Header --- */
 header { text-align:center; padding: 50px 20px; background: linear-gradient(135deg,#d8b494,#f4e1d2); color:white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
 header h1 { font-size: 3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);}
 header p { font-size:1.2em; margin-top:10px; }
 
+/* --- Navigation --- */
 nav { display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:bold; position:sticky; top:0; z-index:100; }
 nav a { color:#5a2d0c; transition: 0.3s; cursor:pointer; }
 nav a:hover { color:#d77a5b; }
 
+/* --- Produse --- */
 #produse { padding:30px; text-align:center; }
 #produse .produse-container { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; }
 .cozonac { background:white; border-radius:15px; overflow:hidden; width:260px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); transition: transform 0.3s, box-shadow 0.3s; display:flex; flex-direction:column; align-items:center; }
@@ -27,20 +31,50 @@ nav a:hover { color:#d77a5b; }
 .pay-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
 .pay-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
 
-.popup-form { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000; opacity:0; transition:0.3s; overflow:auto; }
-.popup-form.active { display:flex; opacity:1; }
-.popup-content { background:#fff5ed; padding:20px; border-radius:15px; width:90%; max-width:400px; text-align:left; position:relative; transform:scale(0.85); transition:0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.2);}
-.popup-form.active .popup-content { transform:scale(1);}
-.popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
-.popup-content label { display:block; margin-top:10px; font-weight:bold; }
-.popup-content input { width:100%; padding:8px; margin-top:5px; border-radius:8px; border:1px solid #d8b494; }
-.popup-content button { margin-top:15px; }
-.close-popup { position:absolute; top:10px; right:10px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
+/* --- Popup form --- */
+.popup-form {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: 0.3s;
+}
+.popup-form.active { display: flex; opacity: 1; }
 
+.popup-content {
+    background: #fff5ed;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh; /* înălțime maximă 90% din viewport */
+    overflow-y: auto;  /* scroll vertical dacă depășește înălțimea */
+    text-align: left;
+    position: relative;
+    transform: scale(0.85);
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.popup-form.active .popup-content { transform: scale(1); }
+
+.popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
+.popup-content label { display:block; margin-top:12px; font-weight:bold; }
+.popup-content input { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #d8b494; }
+.popup-content button { margin-top:20px; }
+.close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
+
+/* --- Notification --- */
 .notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:15px 25px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
 
+/* --- Footer --- */
 footer { text-align:center; background:#d8b494; color:white; padding:25px; border-radius:20px 20px 0 0; margin-top:50px; }
 
+/* --- Hidden sections --- */
 #despre, #contact { display:none; padding:30px; background:#f4e1d2; margin-top:30px; border-radius:15px; }
 </style>
 </head>
@@ -109,7 +143,8 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 
 <div class="popup-form" id="popupForm">
 <div class="popup-content">
-<span class="close-popup" id="closePopup">×</span>
+<span class="close-popup" id="closePopup">&times;</span>
+
 <h3>Comandă produs</h3>
 <form id="orderForm">
 <label>Nume:</label><input type="text" id="nume" required>
@@ -142,20 +177,25 @@ const notification=document.getElementById('notification');
 const totalDisplay=document.getElementById('totalDisplay');
 const cantitateInput=document.getElementById('cantitate');
 
-function showNotification(msg,color="#d77a5b"){notification.style.backgroundColor=color;notification.textContent=msg;notification.style.display="block";setTimeout(()=>{notification.style.display="none";},4000);}
+function showNotification(msg,color="#d77a5b"){
+  notification.style.backgroundColor=color;
+  notification.textContent=msg;
+  notification.style.display="block";
+  setTimeout(()=>{notification.style.display="none";},4000);
+}
 
 const payButtons=document.querySelectorAll('.pay-btn');
 payButtons.forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-        if(e.target.id==='submitOrder') return;
-        const cozonac=btn.closest('.cozonac');
-        currentProduct=cozonac.dataset.nume;
-        currentPrice=Number(cozonac.dataset.price);
-        currentPayment=btn.dataset.plata;
-        document.getElementById('orderForm').reset();
-        updateTotal();
-        popup.classList.add('active');
-    });
+  btn.addEventListener('click',(e)=>{
+    if(e.target.id==='submitOrder') return;
+    const cozonac=btn.closest('.cozonac');
+    currentProduct=cozonac.dataset.nume;
+    currentPrice=Number(cozonac.dataset.price);
+    currentPayment=btn.dataset.plata;
+    document.getElementById('orderForm').reset();
+    updateTotal();
+    popup.classList.add('active');
+  });
 });
 
 closePopup.addEventListener('click',()=>popup.classList.remove('active'));
@@ -180,40 +220,40 @@ linkContact.addEventListener('click',()=>{sectionProduse.style.display='none'; s
 
 // Trimitere comanda
 document.getElementById('orderForm').addEventListener('submit', async e=>{
-    e.preventDefault();
-    const nume=document.getElementById('nume').value.trim();
-    const prenume=document.getElementById('prenume').value.trim();
-    const strada=document.getElementById('strada').value.trim();
-    const numar=document.getElementById('numar').value.trim();
-    const localitate=document.getElementById('localitate').value.trim();
-    const judet=document.getElementById('judet').value.trim();
-    const tara=document.getElementById('tara').value.trim();
-    const codpostal=document.getElementById('codpostal').value.trim();
-    const telefon=document.getElementById('telefon').value.trim();
-    const emailClient=document.getElementById('emailClient').value.trim();
-    const cantitate=Number(document.getElementById('cantitate').value.trim());
+  e.preventDefault();
+  const nume=document.getElementById('nume').value.trim();
+  const prenume=document.getElementById('prenume').value.trim();
+  const strada=document.getElementById('strada').value.trim();
+  const numar=document.getElementById('numar').value.trim();
+  const localitate=document.getElementById('localitate').value.trim();
+  const judet=document.getElementById('judet').value.trim();
+  const tara=document.getElementById('tara').value.trim();
+  const codpostal=document.getElementById('codpostal').value.trim();
+  const telefon=document.getElementById('telefon').value.trim();
+  const emailClient=document.getElementById('emailClient').value.trim();
+  const cantitate=Number(document.getElementById('cantitate').value.trim());
+  
+  if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient||cantitate<=0){
+    showNotification('Completează toate câmpurile corect!','red');
+    return;
+  }
 
-    if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient||cantitate<=0){
-        showNotification('Completează toate câmpurile corect!','red');return;
-    }
+  if(currentPayment==='Plată online'){
+    alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${currentPrice*cantitate} RON\nVă rugăm apăsați OK după efectuarea plății`);
+  }
 
-    if(currentPayment==='Plată online'){
-        const platit=confirm(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${currentPrice*cantitate} RON\nVă rugăm apăsați OK după efectuarea plății`);
-        if(!platit){showNotification('Trebuie să confirmi plata pentru a continua comanda.','red');return;}
-    }
+  const templateParams={produs:currentProduct,cantitate,currentPrice:currentPrice,total_plata:currentPrice*cantitate,metoda_plata:currentPayment,nume,prenume,strada,numar,localitate,judet,tara,codpostal,telefon,email:emailClient};
+  const confirmParams={nume,prenume,produs:currentProduct,cantitate,total_plata:currentPrice*cantitate,metoda_plata:currentPayment,to_email:emailClient};
 
-    const templateParams={produs:currentProduct,cantitate,currentPrice:currentPrice,total_plata:currentPrice*cantitate,metoda_plata:currentPayment,nume,prenume,strada,numar,localitate,judet,tara,codpostal,telefon,email:emailClient};
-    const confirmParams={nume,prenume,produs:currentProduct,cantitate,total_plata:currentPrice*cantitate,metoda_plata:currentPayment,to_email:emailClient};
-
-    try{
-        await emailjs.send('service_rvnfvip','template_6epkz6a',templateParams);
-        await emailjs.send('service_rvnfvip','template_g7g6e4w',confirmParams);
-    } catch(err){
-        console.error(err);
-    }
-
+  try{
+    await emailjs.send('service_rvnfvip','template_6epkz6a',templateParams);
+    await emailjs.send('service_rvnfvip','template_g7g6e4w',confirmParams);
     showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
-    popup.classList.remove('active');
+    popup.classList.remove('active'); // închide popup-ul după trimitere
+  }catch(err){
+    console.error(err);
+    showNotification('Eroare la trimiterea comenzii.','red');
+  }
 });
 </script>
 </body>
