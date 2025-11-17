@@ -21,13 +21,18 @@
     footer { background: #d8b494; color: white; padding: 20px; text-align: center; border-radius: 20px 20px 0 0; }
 
     /* Popup formular comanda */
-    .popup-form { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-    .popup-content { background: #fff8f0; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: left; position: relative; }
+    .popup-form { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; opacity: 0; transition: opacity 0.3s; }
+    .popup-form.active { display: flex; opacity: 1; }
+    .popup-content { background: #fff8f0; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: left; position: relative; transform: scale(0.8); transition: transform 0.3s; }
+    .popup-form.active .popup-content { transform: scale(1); }
     .popup-content h3 { text-align: center; margin-top: 0; }
     .popup-content label { display: block; margin-top: 10px; font-weight: bold; }
     .popup-content input { width: 100%; padding: 8px; margin-top: 5px; border-radius: 6px; border: 1px solid #d8b494; }
     .popup-content button { margin-top: 15px; width: 100%; }
     .close-popup { position: absolute; top: 10px; right: 15px; cursor: pointer; font-weight: bold; font-size: 18px; }
+
+    /* Notificare custom */
+    .notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #d77a5b; color: white; padding: 15px 25px; border-radius: 8px; display: none; z-index: 2000; font-weight: bold; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -55,25 +60,25 @@
       <div class="cozonac" data-nume="Cozonac Clasic">
         <img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonac Clasic">
         <h3>Cozonac Clasic</h3>
-        <p>Cozonac simplu clasic</p>
+        <p>Cozonac clasic simplu, fără umplutură</p>
         <p>Preț: 70 RON</p>
         <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
         <button data-plata="Plată online" class="pay-btn">Plată online</button>
       </div>
 
-      <div class="cozonac" data-nume="Prajitura 1">
-        <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%201.jpg?raw=true" alt="Prajitura 1">
-        <h3>Prajitura 1</h3>
-        <p>Prajitura 1 </p>
+      <div class="cozonac" data-nume="Prajitura cu mere si biscuiti">
+        <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%201.jpg?raw=true" alt="Prajitura cu mere si biscuiti">
+        <h3>Prajitura cu mere si biscuiti</h3>
+        <p>Prajitură cu mere și biscuiți</p>
         <p>Preț: 50 RON</p>
         <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
         <button data-plata="Plată online" class="pay-btn">Plată online</button>
       </div>
 
-      <div class="cozonac" data-nume="Prajitura 2">
-        <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Prajitura 2">
-        <h3>Prajitura 2</h3>
-        <p>Umplutură bogată de nucă și cremă</p>
+      <div class="cozonac" data-nume="Prajitura care a innebunit planeta">
+        <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Prajitura care a innebunit planeta">
+        <h3>Prajitura care a înnebunit planeta</h3>
+        <p>Deliciu cu blat de ciocolată, cremă fină de unt și nucă – combinație irezistibilă și elegantă.</p>
         <p>Preț: 60 RON</p>
         <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
         <button data-plata="Plată online" class="pay-btn">Plată online</button>
@@ -122,35 +127,51 @@
     </div>
   </div>
 
+  <!-- Notificare custom -->
+  <div class="notification" id="notification"></div>
+
+  <!-- EmailJS + JS comandă -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@latest/dist/email.min.js"></script>
   <script>
     emailjs.init('L-7wK8ifbopduze-j');
 
     let currentProduct = '';
     let currentPayment = '';
+    let currentPrice = 0;
 
     const popup = document.getElementById('popupForm');
     const closePopup = document.getElementById('closePopup');
+    const notification = document.getElementById('notification');
+
+    function showNotification(message, color="#d77a5b") {
+      notification.style.backgroundColor = color;
+      notification.textContent = message;
+      notification.style.display = "block";
+      setTimeout(() => { notification.style.display = "none"; }, 4000);
+    }
 
     const payButtons = document.querySelectorAll('.pay-btn');
     payButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        if (e.target.id === 'submitOrder') return;
         const cozonac = btn.closest('.cozonac');
         currentProduct = cozonac.dataset.nume;
         currentPayment = btn.dataset.plata;
 
+        switch(currentProduct) {
+          case 'Cozonac Clasic': currentPrice = 70; break;
+          case 'Prajitura cu mere si biscuiti': currentPrice = 50; break;
+          case 'Prajitura care a innebunit planeta': currentPrice = 60; break;
+          default: currentPrice = 0;
+        }
+
         document.getElementById('orderForm').reset();
-        popup.style.display = 'flex';
+        popup.classList.add('active');
       });
     });
 
-    closePopup.addEventListener('click', () => {
-      popup.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if(e.target === popup) popup.style.display = 'none';
-    });
+    closePopup.addEventListener('click', () => popup.classList.remove('active'));
+    window.addEventListener('click', (e) => { if (e.target === popup) popup.classList.remove('active'); });
 
     document.getElementById('orderForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -159,21 +180,28 @@
       const prenume = document.getElementById('prenume').value.trim();
       const adresa = document.getElementById('adresa').value.trim();
       const telefon = document.getElementById('telefon').value.trim();
-      const cantitate = document.getElementById('cantitate').value.trim();
+      const cantitate = parseInt(document.getElementById('cantitate').value.trim());
 
-      if(!nume || !prenume || !adresa || !telefon || !cantitate || cantitate <= 0) {
-        alert('Completează toate câmpurile corect!');
+      if (!nume || !prenume || !adresa || !telefon || !cantitate || cantitate <= 0) {
+        showNotification('Completează toate câmpurile corect!', 'red');
         return;
       }
 
-      if(currentPayment === 'Plată online') {
-        alert('Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572');
+      let totalPayment = currentPrice * cantitate;
+
+      if (currentPayment === 'Plată online') {
+        const confirmPayment = confirm(`Ai efectuat plata online în valoare de ${totalPayment} RON?\nConfirmă pentru a trimite comanda.`);
+        if (!confirmPayment) {
+          showNotification('Comanda nu a fost trimisă. Plata online trebuie confirmată!', 'red');
+          return;
+        }
       }
 
       const templateParams = {
         produs: currentProduct,
         cantitate: cantitate,
         metoda_plata: currentPayment,
+        total_plata: totalPayment,
         nume: nume,
         prenume: prenume,
         adresa: adresa,
@@ -182,15 +210,15 @@
 
       try {
         const response = await emailjs.send('service_rvnfvip', 'template_6epkz6a', templateParams);
-        if(response.status === 200) {
-          alert('Comanda trimisă cu succes!');
-          popup.style.display = 'none';
+        if (response.status === 200) {
+          showNotification('Comanda trimisă cu succes!', 'green');
+          popup.classList.remove('active');
         } else {
-          alert('Comanda nu a putut fi trimisă. Încearcă din nou.');
+          showNotification('Comanda nu a putut fi trimisă. Încearcă din nou.', 'red');
         }
         console.log('Răspuns EmailJS:', response);
-      } catch(err) {
-        alert('Eroare la trimiterea comenzii. Încearcă din nou.');
+      } catch (err) {
+        showNotification('Eroare la trimiterea comenzii. Încearcă din nou.', 'red');
         console.error('FAILED...', err);
       }
     });
