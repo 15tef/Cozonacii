@@ -37,18 +37,6 @@
             padding: 30px;
             text-align: center;
         }
-        .preview {
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .preview img {
-            width: 260px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
-        }
         .cozonac {
             border: 1px solid #d8b494;
             padding: 15px;
@@ -80,42 +68,50 @@
             text-align: center;
             border-radius: 20px 20px 0 0;
         }
+        .payment-options button {
+            margin: 5px;
+            padding: 10px 15px;
+            background: #f4e1d2;
+            border: 1px solid #d77a5b;
+            border-radius: 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <header>
+    <header id="home">
         <h1>Cozonaci de Vânzare</h1>
         <p>Gusta tradiția, simte aroma!</p>
     </header>
 
     <nav>
-        <a href="#upload">Încarcă poze</a>
+        <a href="#home">Home</a>
         <a href="#produse">Produse</a>
         <a href="#despre">Despre noi</a>
         <a href="#contact">Contact</a>
     </nav>
 
-    <section id="upload">
-        <h2>Încarcă poze cu cozonaci</h2>
-        <input type="file" id="imageUpload" accept="image/*" multiple />
-        <div class="preview" id="preview"></div>
-    </section>
-
     <section id="produse">
         <h2>Produsele noastre</h2>
-        <div class="cozonac">
-            <img src="https://via.placeholder.com/250x150?text=Cozonac+Clasic" alt="Cozonac Clasic">
+        <div class="cozonac" data-nume="Cozonac Clasic">
+            <img src="https://github.com/15tef/Cozonacii/blob/main/shutterstock_2038200146.jpg?raw=true" alt="Cozonac Clasic">
             <h3>Cozonac Clasic</h3>
             <p>Delicios cu nucă și stafide</p>
             <p>Preț: 30 RON</p>
-            <a href="#contact" class="button">Comandă acum</a>
+            <div class="payment-options">
+                <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
+                <button data-plata="Plata online" class="pay-btn">Plată online</button>
+            </div>
         </div>
-        <div class="cozonac">
-            <img src="https://via.placeholder.com/250x150?text=Cozonac+Ciocolata" alt="Cozonac Ciocolata">
-            <h3>Cozonac cu Ciocolată</h3>
-            <p>Umplutură bogată de ciocolată fină</p>
-            <p>Preț: 35 RON</p>
-            <a href="#contact" class="button">Comandă acum</a>
+        <div class="cozonac" data-nume="Cozonac Suprem">
+            <img src="https://github.com/15tef/Cozonacii/blob/main/Cozonacul-suprem-care-se-desface-in-suvite-caiere-pale-cozonac-cu-multa-crema-de-nuca-rahat-stafide-savori-urbane-1.jpg?raw=true" alt="Cozonac Suprem">
+            <h3>Cozonac Suprem</h3>
+            <p>Umplutură bogată de nucă și cremă</p>
+            <p>Preț: 40 RON</p>
+            <div class="payment-options">
+                <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
+                <button data-plata="Plata online" class="pay-btn">Plată online</button>
+            </div>
         </div>
     </section>
 
@@ -126,9 +122,8 @@
 
     <section id="contact">
         <h2>Contact</h2>
-        <p>Telefon: 07xx xxx xxx</p>
-        <p>Email: comanda@cozonaci.ro</p>
-        <a href="mailto:comanda@cozonaci.ro" class="button">Trimite comandă</a>
+        <p>Telefon: 0732 920 255</p>
+        <p>Email: a.stef89@yahoo.com</p>
     </section>
 
     <footer>
@@ -136,21 +131,23 @@
     </footer>
 
     <script>
-        const upload = document.getElementById('imageUpload');
-        const preview = document.getElementById('preview');
+        const payButtons = document.querySelectorAll('.pay-btn');
 
-        upload.addEventListener('change', () => {
-            preview.innerHTML = "";
-            const files = Array.from(upload.files);
+        payButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const produs = btn.closest('.cozonac').dataset.nume;
+                const cantitate = prompt(`Câte bucăți de ${produs} doriți?`, '1');
+                if(!cantitate) return;
 
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    preview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
+                const plata = btn.dataset.plata;
+                const email = 'a.stef89@yahoo.com';
+                const subject = encodeURIComponent('Comandă cozonac');
+                const body = encodeURIComponent(`Produs: ${produs}\nCantitate: ${cantitate}\nModalitate de plată: ${plata}`);
+
+                // Folosim fetch pentru a simula trimiterea comenzii și afișăm mesaj
+                // (fără client mail)
+                alert('Comanda trimisă!');
+                console.log(`Email către: ${email}\nSubiect: ${subject}\nCorp: ${body}`);
             });
         });
     </script>
