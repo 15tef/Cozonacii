@@ -1,78 +1,155 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cozonaci de Vânzare</title>
-<style>
-body {
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 20px;
-background: #faf6f0;
-}
-header {
-text-align: center;
-padding: 20px;
-background: #d8b494;
-color: white;
-border-radius: 12px;
-}
-h1 {
-margin: 0;
-}
-.upload-section {
-margin-top: 30px;
-text-align: center;
-}
-.preview {
-margin-top: 20px;
-display: flex;
-gap: 20px;
-flex-wrap: wrap;
-justify-content: center;
-}
-.preview img {
-width: 260px;
-border-radius: 12px;
-box-shadow: 0 0 10px rgba(0,0,0,0.15);
-}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cozonaci de Vânzare</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff8f0;
+        }
+        header {
+            text-align: center;
+            padding: 30px;
+            background: #d8b494;
+            color: white;
+            border-radius: 0 0 20px 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            text-align: center;
+            background: #f4e1d2;
+            padding: 10px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #5a2d0c;
+            font-weight: bold;
+        }
+        section {
+            padding: 30px;
+            text-align: center;
+        }
+        .preview {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .preview img {
+            width: 260px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        }
+        .cozonac {
+            border: 1px solid #d8b494;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 12px;
+            display: inline-block;
+            width: 250px;
+        }
+        .cozonac img {
+            width: 100%;
+            border-radius: 12px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: #d77a5b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        footer {
+            background: #d8b494;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+    </style>
 </head>
 <body>
-<header>
-<h1>Cozonaci de Vânzare</h1>
-<p>Gusta tradiția, simte aroma!</p>
-</header>
+    <header>
+        <h1>Cozonaci de Vânzare</h1>
+        <p>Gusta tradiția, simte aroma!</p>
+    </header>
+
+    <nav>
+       
+        <a href="#produse">Produse</a>
+        <a href="#despre">Despre noi</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+ 
+
+<section id="produse">
+    <h2>Produsele noastre</h2>
+    <div class="cozonac">
+        <img src="https://github.com/15tef/Cozonacii/blob/main/shutterstock_2038200146.jpg?raw=true" alt="Cozonac Clasic">
+        <h3>Cozonac Clasic</h3>
+        <p>Delicios cu nucă și stafide</p>
+        <p>Preț: 30 RON</p>
+        <a href="#contact" class="button">Comandă acum</a>
+    </div>
+    <div class="cozonac">
+        <img src="https://github.com/15tef/Cozonacii/blob/main/Cozonacul-suprem-care-se-desface-in-suvite-caiere-pale-cozonac-cu-multa-crema-de-nuca-rahat-stafide-savori-urbane-1.jpg?raw=true" alt="Cozonac Ciocolată">
+        <h3>Cozonac cu Ciocolată</h3>
+        <p>Umplutură bogată de ciocolată fină</p>
+        <p>Preț: 35 RON</p>
+        <a href="#contact" class="button">Comandă acum</a>
+    </div>
+</section>
 
 
-<div class="upload-section">
-<h2>Încarcă poze cu cozonaci</h2>
-<input type="file" id="imageUpload" accept="image/*" multiple />
-<div class="preview" id="preview"></div>
-</div>
+    <section id="despre">
+        <h2>Despre noi</h2>
+        <p>Bunicii noștri fac cozonaci de peste 50 de ani. Folosim doar ingrediente naturale și rețete tradiționale transmise din generație în generație.</p>
+    </section>
 
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Telefon: 0732 920 255</p>
+        <p>Email: a.stef89@yahoo.com</p>
+        <a href="mailto:comanda@cozonaci.ro" class="button">Trimite comandă</a>
+    </section>
 
-<script>
-const upload = document.getElementById('imageUpload');
-const preview = document.getElementById('preview');
+    <footer>
+        <p>&copy; 2025 Cozonaci de Vânzare. Toate drepturile rezervate.</p>
+    </footer>
 
+    <script>
+        const upload = document.getElementById('imageUpload');
+        const preview = document.getElementById('preview');
 
-upload.addEventListener('change', () => {
-preview.innerHTML = "";
-const files = Array.from(upload.files);
+        upload.addEventListener('change', () => {
+            preview.innerHTML = "";
+            const files = Array.from(upload.files);
 
-
-files.forEach(file => {
-const reader = new FileReader();
-reader.onload = e => {
-const img = document.createElement('img');
-img.src = e.target.result;
-preview.appendChild(img);
-};
-reader.readAsDataURL(file);
-});
-});
-</script>
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
 </body>
 </html>
