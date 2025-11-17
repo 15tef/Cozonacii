@@ -5,22 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cozonaci de Vânzare</title>
 <style>
-/* --- Stilizare generală --- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background: #fff5ed; color:#333; scroll-behavior: smooth; }
 h1,h2,h3 { margin:0; }
 a { text-decoration:none; }
 
-/* --- Header --- */
+/* Header */
 header { text-align:center; padding: 50px 20px; background: linear-gradient(135deg,#d8b494,#f4e1d2); color:white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
 header h1 { font-size: 3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);}
 header p { font-size:1.2em; margin-top:10px; }
 
-/* --- Navigation --- */
+/* Navigation */
 nav { display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:bold; position:sticky; top:0; z-index:100; }
 nav a { color:#5a2d0c; transition: 0.3s; cursor:pointer; }
 nav a:hover { color:#d77a5b; }
 
-/* --- Produse --- */
+/* Produse */
 #produse { padding:30px; text-align:center; }
 #produse .produse-container { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; }
 .cozonac { background:white; border-radius:15px; overflow:hidden; width:260px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); transition: transform 0.3s, box-shadow 0.3s; display:flex; flex-direction:column; align-items:center; }
@@ -31,7 +30,7 @@ nav a:hover { color:#d77a5b; }
 .pay-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
 .pay-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
 
-/* --- Popup form --- */
+/* Popup form */
 .popup-form {
     display: none;
     position: fixed;
@@ -48,12 +47,12 @@ nav a:hover { color:#d77a5b; }
 
 .popup-content {
     background: #fff5ed;
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
-    max-height: 90vh; /* înălțime maximă 90% din viewport */
-    overflow-y: auto;  /* scroll vertical dacă depășește înălțimea */
+    width: 50%;
+    max-width: 450px;
+    max-height: 90vh; 
+    overflow-y: auto;
     text-align: left;
     position: relative;
     transform: scale(0.85);
@@ -62,20 +61,30 @@ nav a:hover { color:#d77a5b; }
 }
 .popup-form.active .popup-content { transform: scale(1); }
 
-.popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
-.popup-content label { display:block; margin-top:12px; font-weight:bold; }
-.popup-content input { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #d8b494; }
-.popup-content button { margin-top:20px; }
-.close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
+.popup-content h3 { text-align:center; margin-bottom:10px; color:#d77a5b;}
+.popup-content label { display:block; margin-top:10px; font-weight:bold; }
+.popup-content input { width: 100%; padding: 8px; margin-top: 4px; border-radius:6px; border:1px solid #d8b494; font-size:0.9em; }
+.popup-content button { margin-top:15px; padding:10px 15px; font-size:1em; }
 
-/* --- Notification --- */
-.notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:15px 25px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
+.close-popup { position:absolute; top:10px; right:10px; cursor:pointer; font-weight:bold; font-size:20px; color:#d77a5b; }
 
-/* --- Footer --- */
+/* Grupare câmpuri două coloane */
+.form-row { display:flex; gap:10px; flex-wrap: wrap; }
+.form-row input { flex: 1; }
+
+/* Notificare */
+.notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:12px 20px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
+
+/* Footer */
 footer { text-align:center; background:#d8b494; color:white; padding:25px; border-radius:20px 20px 0 0; margin-top:50px; }
 
-/* --- Hidden sections --- */
+/* Hidden sections */
 #despre, #contact { display:none; padding:30px; background:#f4e1d2; margin-top:30px; border-radius:15px; }
+
+/* Mobil */
+@media (max-width:768px){
+    .popup-content { width: 80%; }
+}
 </style>
 </head>
 <body>
@@ -95,7 +104,6 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <section id="produse">
 <h2>Produsele noastre</h2>
 <div class="produse-container">
-
 <div class="cozonac" data-nume="Cozonac Clasic" data-price="70">
 <img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonac Clasic">
 <h3>Cozonac Clasic</h3>
@@ -122,7 +130,6 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
 <button data-plata="Plată online" class="pay-btn">Plată online</button>
 </div>
-
 </div>
 </section>
 
@@ -147,16 +154,26 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 
 <h3>Comandă produs</h3>
 <form id="orderForm">
+<div class="form-row">
 <label>Nume:</label><input type="text" id="nume" required>
 <label>Prenume:</label><input type="text" id="prenume" required>
+</div>
+<div class="form-row">
 <label>Strada:</label><input type="text" id="strada" required>
 <label>Număr:</label><input type="text" id="numar" required>
+</div>
+<div class="form-row">
 <label>Localitate:</label><input type="text" id="localitate" required>
 <label>Județ:</label><input type="text" id="judet" required>
+</div>
+<div class="form-row">
 <label>Țară:</label><input type="text" id="tara" required>
 <label>Cod poștal:</label><input type="text" id="codpostal" required>
+</div>
+<div class="form-row">
 <label>Telefon:</label><input type="text" id="telefon" required>
 <label>Email:</label><input type="email" id="emailClient" required>
+</div>
 <label>Cantitate:</label><input type="number" id="cantitate" min="1" value="1" required>
 <p>Total de plată: <span id="totalDisplay">0</span> RON</p>
 <button type="submit" class="pay-btn" id="submitOrder">Trimite comanda</button>
@@ -232,14 +249,10 @@ document.getElementById('orderForm').addEventListener('submit', async e=>{
   const telefon=document.getElementById('telefon').value.trim();
   const emailClient=document.getElementById('emailClient').value.trim();
   const cantitate=Number(document.getElementById('cantitate').value.trim());
-  
+
   if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient||cantitate<=0){
     showNotification('Completează toate câmpurile corect!','red');
     return;
-  }
-
-  if(currentPayment==='Plată online'){
-    alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${currentPrice*cantitate} RON\nVă rugăm apăsați OK după efectuarea plății`);
   }
 
   const templateParams={produs:currentProduct,cantitate,currentPrice:currentPrice,total_plata:currentPrice*cantitate,metoda_plata:currentPayment,nume,prenume,strada,numar,localitate,judet,tara,codpostal,telefon,email:emailClient};
@@ -249,7 +262,7 @@ document.getElementById('orderForm').addEventListener('submit', async e=>{
     await emailjs.send('service_rvnfvip','template_6epkz6a',templateParams);
     await emailjs.send('service_rvnfvip','template_g7g6e4w',confirmParams);
     showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
-    popup.classList.remove('active'); // închide popup-ul după trimitere
+    popup.classList.remove('active'); // popup se închide automat
   }catch(err){
     console.error(err);
     showNotification('Eroare la trimiterea comenzii.','red');
