@@ -39,6 +39,7 @@ nav a:hover { color:#d77a5b; }
 .popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
 .popup-content label { display:block; margin-top:12px; font-weight:bold; }
 .popup-content input { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #d8b494; }
+#cantitate { width:60px; text-align:center; } /* Dimensiune mai mică */
 .popup-content button { margin-top:20px; }
 .close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
 
@@ -236,16 +237,11 @@ document.getElementById('orderForm').addEventListener('submit',async e=>{
     to_email:emailClient
   };
 
-  try{
-    await emailjs.send('service_rvnfvip','template_6epkz6a',templateParams);
-    await emailjs.send('service_rvnfvip','template_g7g6e4w',confirmParams);
-    showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
-  } catch(err){
-    console.warn('Eroare la trimiterea email-ului (ignorată).', err);
-    showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
-  } finally {
-    popup.classList.remove('active');
-  }
+  // Trimitere email ignorând complet erorile
+  await emailjs.send('service_rvnfvip','template_6epkz6a',templateParams).catch(()=>{});
+  await emailjs.send('service_rvnfvip','template_g7g6e4w',confirmParams).catch(()=>{});
+  showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
+  popup.classList.remove('active');
 });
 </script>
 
