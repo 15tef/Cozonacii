@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cozonaci de Vânzare</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 20px;
+background: #faf6f0;
+}
+header {
+text-align: center;
+padding: 20px;
+background: #d8b494;
+color: white;
+border-radius: 12px;
+}
+h1 {
+margin: 0;
+}
+.upload-section {
+margin-top: 30px;
+text-align: center;
+}
+.preview {
+margin-top: 20px;
+display: flex;
+gap: 20px;
+flex-wrap: wrap;
+justify-content: center;
+}
+.preview img {
+width: 260px;
+border-radius: 12px;
+box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Cozonaci de Vânzare</h1>
+<p>Gusta tradiția, simte aroma!</p>
+</header>
+
+
+<div class="upload-section">
+<h2>Încarcă poze cu cozonaci</h2>
+<input type="file" id="imageUpload" accept="image/*" multiple />
+<div class="preview" id="preview"></div>
+</div>
+
+
+<script>
+const upload = document.getElementById('imageUpload');
+const preview = document.getElementById('preview');
+
+
+upload.addEventListener('change', () => {
+preview.innerHTML = "";
+const files = Array.from(upload.files);
+
+
+files.forEach(file => {
+const reader = new FileReader();
+reader.onload = e => {
+const img = document.createElement('img');
+img.src = e.target.result;
+preview.appendChild(img);
+};
+reader.readAsDataURL(file);
+});
+});
+</script>
+</body>
+</html>
