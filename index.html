@@ -5,23 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cozonaci de Vânzare</title>
 <style>
-/* --- Stilizare generală --- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background: #fff5ed; color:#333; scroll-behavior: smooth; }
 h1,h2,h3 { margin:0; }
 a { text-decoration:none; }
-
-/* --- Header --- */
 header { text-align:center; padding: 50px 20px; background: linear-gradient(135deg,#d8b494,#f4e1d2); color:white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
 header h1 { font-size: 3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);}
 header p { font-size:1.2em; margin-top:10px; }
-
-/* --- Navigation --- */
 nav { display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:bold; position:sticky; top:0; z-index:100; }
 nav a { color:#5a2d0c; transition: 0.3s; cursor:pointer; }
 nav a:hover { color:#d77a5b; }
-
-/* --- Produse --- */
-#produse { padding:30px; text-align:center; }
+section { padding:30px; text-align:center; display:none; }
+#homeSection { display:block; background:#fff5ed; border-radius:15px; margin:20px auto; max-width:900px; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+#homeSection img { width:80%; max-width:500px; margin-top:20px; border-radius:15px;}
 #produse .produse-container { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; }
 .cozonac { background:white; border-radius:15px; overflow:hidden; width:260px; box-shadow: 0 8px 20px rgba(0,0,0,0.12); transition: transform 0.3s, box-shadow 0.3s; display:flex; flex-direction:column; align-items:center; }
 .cozonac:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.18);}
@@ -30,64 +25,24 @@ nav a:hover { color:#d77a5b; }
 .cozonac p { margin:5px 0; font-size:0.95em; color:#555; text-align:center; }
 .pay-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
 .pay-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
-
-/* --- Popup form --- */
-.popup-form {
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.5);
-  justify-content:center;
-  align-items:flex-start;
-  padding-top:20px;
-  z-index:1000;
-  opacity:0;
-  transition:0.3s;
-  overflow-y:auto;
-}
+.popup-form { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:flex-start; padding-top:20px; z-index:1000; opacity:0; transition:0.3s; overflow-y:auto; }
 .popup-form.active { display:flex; opacity:1; }
-
-.popup-content {
-  background:#fff5ed;
-  padding:20px;
-  border-radius:15px;
-  width:90%;
-  max-width:400px;
-  text-align:left;
-  position:relative;
-  transform:scale(0.85);
-  transition:0.3s;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
+.popup-content { background:#fff5ed; padding:20px; border-radius:15px; width:90%; max-width:400px; text-align:left; position:relative; transform:scale(0.85); transition:0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.2);}
 .popup-form.active .popup-content { transform:scale(1); }
-
 .popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
 .popup-content label { display:block; margin-top:12px; font-weight:bold; }
 .popup-content input { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #d8b494; }
-#cantitate { width:60px; text-align:center; } /* Dimensiune mai mică */
+#cantitate { width:60px; text-align:center; }
 .popup-content button { margin-top:20px; }
 .close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
-
-/* --- Notification --- */
 .notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:15px 25px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
-
-/* --- Footer --- */
 footer { text-align:center; background:#d8b494; color:white; padding:25px; border-radius:20px 20px 0 0; margin-top:50px; }
-
-/* --- Hidden sections --- */
-#despre, #contact { display:none; padding:30px; background:#f4e1d2; margin-top:30px; border-radius:15px; }
-
-@media(max-width:600px){
-  .popup-content { width:95%; padding:15px; }
-}
+@media(max-width:600px){ .popup-content { width:95%; padding:15px; } }
 </style>
 </head>
 <body>
 
-<header id="home">
+<header>
 <h1>Cozonaci de Vânzare</h1>
 <p>Gusta tradiția, simte aroma!</p>
 </header>
@@ -99,11 +54,15 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <a id="linkContact">Contact</a>
 </nav>
 
+<section id="homeSection">
+<h2>Bine ai venit la Cozonaci de Vânzare!</h2>
+<p>Descoperă gustul autentic al cozonacilor tradiționali, pregătiți cu dragoste și ingrediente naturale.</p>
+<img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true">
+</section>
+
 <section id="produse">
 <h2>Produsele noastre</h2>
 <div class="produse-container">
-
-<!-- Cozonac 1 -->
 <div class="cozonac" data-nume="Cozonac Clasic" data-price="70">
 <img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonac Clasic">
 <h3>Cozonac Clasic</h3>
@@ -113,7 +72,6 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <button data-plata="Plată online" class="pay-btn">Plată online</button>
 </div>
 
-<!-- Cozonac 2 -->
 <div class="cozonac" data-nume="Prajitura cu mere si biscuiti" data-price="50">
 <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%201.jpg?raw=true" alt="Prajitura cu mere si biscuiti">
 <h3>Prajitura cu mere și biscuiți</h3>
@@ -123,7 +81,6 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <button data-plata="Plată online" class="pay-btn">Plată online</button>
 </div>
 
-<!-- Cozonac 3 -->
 <div class="cozonac" data-nume="Prajitura care a innebunit planeta" data-price="60">
 <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Prajitura care a innebunit planeta">
 <h3>Prajitura care a înnebunit planeta</h3>
@@ -132,17 +89,16 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
 <button data-plata="Plată online" class="pay-btn">Plată online</button>
 </div>
-
 </div>
 </section>
 
 <section id="despre">
 <h2>Despre noi</h2>
-<p>De la rețete transmise din generație în generație, până la atenția pentru fiecare detaliu, ne dedicăm să oferim produse autentice, care aduc bucurie și savoare fiecărei mese.</p>
-<p>Folosim numai ingrediente naturale și de cea mai bună calitate: făină selectă, ouă proaspete, unt fin și arome naturale, fără adaosuri artificiale. Fiecare cozonac sau prăjitură este preparată cu dragoste și răbdare, respectând tradițiile culinare românești, astfel încât fiecare felie să te ducă cu gândul la gustul copilăriei.</p>
-<p>Ne mândrim cu faptul că produsele noastre sunt realizate manual, cu pasiune și grijă, pentru a oferi nu doar un desert, ci o experiență completă. Indiferent dacă vrei să îți răsfeți familia sau să faci un cadou delicios, cozonacii și prăjiturile noastre aduc mereu zâmbete și amintiri plăcute.</p>
-<p>Gustați tradiția în fiecare felie și simțiți aroma care a făcut din cozonacii noștri un simbol al gustului autentic românesc!</p>
+<p>Noi ne dedicăm excelenței în cofetărie, combinând tehnici tradiționale cu ingrediente naturale de cea mai bună calitate. Fiecare cozonac și desert pe care îl realizăm este pregătit cu atenție la detalii, pentru a oferi gustul autentic și aroma care amintește de rețetele clasice. Punem accent pe prospețime, folosind ingrediente selectate cu grijă, fără aditivi sau conservanți. Obiectivul nostru este să oferim clienților o experiență completă, de la aspectul vizual, la textura perfectă și gustul desăvârșit, transformând fiecare moment dulce într-o adevărată plăcere.</p>
+<p>Ne inspirăm din tradiție, dar suntem deschiși și la inovație, combinând arome și texturi pentru a crea deserturi unice, care să încânte simțurile. Fie că este vorba de cozonaci clasici, prăjituri cu fructe sau delicii cu ciocolată și nuci, scopul nostru este să aducem bucurie și satisfacție fiecărui client care ne trece pragul.</p>
+<p>Prin pasiune, atenție la detalii și respect pentru ingrediente, transformăm cofetăria într-o experiență memorabilă, iar fiecare produs pe care îl livrăm reflectă angajamentul nostru față de calitate și gust autentic.</p>
 </section>
+
 <section id="contact">
 <h2>Contact</h2>
 <p>Telefon: 0732 920 255</p>
@@ -180,7 +136,6 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@latest/dist/email.min.js"></script>
 <script>
 emailjs.init('L-7wK8ifbopduze-j');
-
 let currentProduct='', currentPayment='', currentPrice=0;
 const popup=document.getElementById('popupForm');
 const closePopup=document.getElementById('closePopup');
@@ -211,25 +166,42 @@ payButtons.forEach(btn=>{
 
 closePopup.addEventListener('click',()=>popup.classList.remove('active'));
 window.addEventListener('click',e=>{if(e.target===popup) popup.classList.remove('active');});
-
 function updateTotal(){const cant=Number(cantitateInput.value)||1; totalDisplay.textContent=currentPrice*cant;}
 cantitateInput.addEventListener('input',updateTotal);
 
-// Navigare
-const linkHome=document.getElementById('linkHome');
-const linkProduse=document.getElementById('linkProduse');
-const linkDespre=document.getElementById('linkDespre');
-const linkContact=document.getElementById('linkContact');
-const sectionProduse=document.getElementById('produse');
-const sectionDespre=document.getElementById('despre');
-const sectionContact=document.getElementById('contact');
+// Navigare cu URL
+const sections = {
+  home: document.getElementById('homeSection'),
+  produse: document.getElementById('produse'),
+  despre: document.getElementById('despre'),
+  contact: document.getElementById('contact')
+};
 
-linkHome.addEventListener('click',()=>{sectionProduse.style.display='block'; sectionDespre.style.display='none'; sectionContact.style.display='none'; sectionProduse.scrollIntoView({behavior:'smooth'});});
-linkProduse.addEventListener('click',()=>{sectionProduse.style.display='block'; sectionDespre.style.display='none'; sectionContact.style.display='none'; sectionProduse.scrollIntoView({behavior:'smooth'});});
-linkDespre.addEventListener('click',()=>{sectionProduse.style.display='none'; sectionDespre.style.display='block'; sectionContact.style.display='none'; sectionDespre.scrollIntoView({behavior:'smooth'});});
-linkContact.addEventListener('click',()=>{sectionProduse.style.display='none'; sectionDespre.style.display='none'; sectionContact.style.display='block'; sectionContact.scrollIntoView({behavior:'smooth'});});
+function showSection(id){
+  for(let key in sections) sections[key].style.display='none';
+  sections[id].style.display='block';
+}
 
-// Trimitere comanda
+function navigate(id,url){
+  showSection(id);
+  history.pushState({section:id},'',url);
+}
+
+document.getElementById('linkHome').addEventListener('click',()=>navigate('home','/home'));
+document.getElementById('linkProduse').addEventListener('click',()=>navigate('produse','/produse'));
+document.getElementById('linkDespre').addEventListener('click',()=>navigate('despre','/despre'));
+document.getElementById('linkContact').addEventListener('click',()=>navigate('contact','/contact'));
+
+window.onpopstate=function(event){
+  const id=(event.state && event.state.section) || 'home';
+  showSection(id);
+};
+window.addEventListener('DOMContentLoaded',()=>{
+  const path=window.location.pathname.replace('/','') || 'home';
+  showSection(['home','produse','despre','contact'].includes(path)?path:'home');
+});
+
+// Comanda
 document.getElementById('orderForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const nume=document.getElementById('nume').value.trim();
@@ -243,32 +215,14 @@ document.getElementById('orderForm').addEventListener('submit',async e=>{
   const telefon=document.getElementById('telefon').value.trim();
   const emailClient=document.getElementById('emailClient').value.trim();
   const cantitate=Number(document.getElementById('cantitate').value.trim());
-
   if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient||cantitate<=0){
-    showNotification('Completează toate câmpurile corect!','red');
-    return;
+    showNotification('Completează toate câmpurile corect!','red'); return;
   }
-
   if(currentPayment==='Plată online'){
     alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${currentPrice*cantitate} RON\nApasă OK după efectuarea plății`);
   }
-
-  const templateParams={
-    produs:currentProduct,
-    cantitate,
-    currentPrice:currentPrice,
-    total_plata:currentPrice*cantitate,
-    metoda_plata:currentPayment,
-    nume,prenume,strada,numar,localitate,judet,tara,codpostal,telefon,email:emailClient
-  };
-
-  const confirmParams={
-    nume,prenume,produs:currentProduct,cantitate,
-    total_plata:currentPrice*cantitate,metoda_plata:currentPayment,
-    to_email:emailClient
-  };
-
-  // Trimitere email ignorând complet erorile
+  const templateParams={ produs:currentProduct, cantitate, currentPrice:currentPrice, total_plata:currentPrice*cantitate, metoda_plata:currentPayment, nume,prenume,strada,numar,localitate,judet,tara,codpostal,telefon,email:emailClient };
+  const confirmParams={ nume,prenume,produs:currentProduct,cantitate, total_plata:currentPrice*cantitate,metoda_plata:currentPayment, to_email:emailClient };
   await emailjs.send('service_rvnfvip','template_6epkz6a',templateParams).catch(()=>{});
   await emailjs.send('service_rvnfvip','template_g7g6e4w',confirmParams).catch(()=>{});
   showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
