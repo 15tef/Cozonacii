@@ -70,10 +70,8 @@
     <p>&copy; 2025 Cozonaci de Vânzare. Toate drepturile rezervate.</p>
   </footer>
 
-  <!-- Include EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@latest/dist/email.min.js"></script>
   <script>
-    // Inițializează EmailJS cu public key-ul tău
     emailjs.init('L-7wK8ifbopduze-j');
 
     const payButtons = document.querySelectorAll('.pay-btn');
@@ -90,11 +88,14 @@
           metoda_plata: plata
         };
 
-        // Trimitem email prin EmailJS folosind SERVICE_ID și TEMPLATE_ID
         emailjs.send('Comenzi', 'template_6epkz6a', templateParams)
           .then((response) => {
-            alert('Comanda trimisă!');
-            console.log('SUCCESS!', response.status, response.text);
+            if(response.status === 200) {
+              alert('Comanda trimisă cu succes!');
+            } else {
+              alert('Comanda nu a putut fi trimisă. Încearcă din nou.');
+            }
+            console.log('Răspuns EmailJS:', response);
           }, (err) => {
             alert('Eroare la trimiterea comenzii. Încearcă din nou.');
             console.error('FAILED...', err);
