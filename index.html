@@ -10,7 +10,10 @@ h1,h2,h3 { margin:0; }
 a { text-decoration:none; }
 header { text-align:center; padding: 50px 20px; background: linear-gradient(135deg,#d8b494,#f4e1d2); color:white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
 header h1 { font-size: 3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);}
-header p { font-size:1.2em; margin-top:10px; }
+header p { font-size:1.2em; margin-top:10px; position:relative; }
+.cart-btn { position:absolute; top:20px; right:20px; background:#b85a40; color:white; padding:10px 15px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; }
+.cart-btn:hover { background:#d77a5b; }
+
 nav { display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:bold; position:sticky; top:0; z-index:100; }
 nav a { color:#5a2d0c; transition: 0.3s; cursor:pointer; }
 nav a:hover, nav a.active { color:#d77a5b; }
@@ -36,8 +39,8 @@ section.active { display:block; opacity:1; transform: translateY(0); }
 .cozonac img:hover { transform: scale(1.05); }
 .cozonac h3 { margin:10px 0 5px; }
 .cozonac p { margin:5px 0; font-size:0.95em; color:#555; text-align:center; }
-.pay-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
-.pay-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
+.add-cart-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
+.add-cart-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
 
 .badge { position:absolute; top:10px; left:10px; background:#d77a5b; color:white; padding:5px 10px; border-radius:12px; font-size:0.8em; font-weight:bold; }
 
@@ -48,7 +51,6 @@ section.active { display:block; opacity:1; transform: translateY(0); }
 .popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
 .popup-content label { display:block; margin-top:10px; font-weight:bold; font-size:0.95em; }
 .popup-content input { width:90%; padding:6px 8px; margin-top:5px; border-radius:6px; border:1px solid #d8b494; font-size:0.95em; }
-#cantitate { width:50px; text-align:center; }
 .popup-content button { margin-top:15px; padding:10px; font-size:1em; width:100%; }
 .close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
 .notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:15px 25px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
@@ -58,6 +60,11 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 #lightbox img { max-width:90%; max-height:90%; border-radius:15px; }
 #closeLightbox { position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; }
 
+#cartSection table { width:100%; border-collapse: collapse; margin-top:15px; }
+#cartSection th, #cartSection td { border:1px solid #d8b494; padding:8px; text-align:center; }
+#cartSection th { background:#f4e1d2; }
+#cartSection input { width:60px; text-align:center; }
+
 @media(max-width:600px){ .popup-content { width:95%; padding:15px; } }
 </style>
 </head>
@@ -66,6 +73,7 @@ footer { text-align:center; background:#d8b494; color:white; padding:25px; borde
 <header id="home">
 <h1>Cozonaci de Vânzare</h1>
 <p>Gusta tradiția, simte aroma!</p>
+<button class="cart-btn" id="openCart">Cosul meu (<span id="cartCount">0</span>)</button>
 </header>
 
 <nav>
@@ -91,8 +99,7 @@ Navighează la Produse pentru a comanda cozonacul preferat!</p>
 <h3>Cozonac Clasic</h3>
 <p>Cozonac pufos cu aromă de vanilie, ideal pentru sărbători sau cadouri.</p>
 <p>Preț: 100 RON</p>
-<button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
-<button data-plata="Plată online" class="pay-btn">Plată online</button>
+<button class="add-cart-btn">Adaugă în coș</button>
 </div>
 <div class="cozonac" data-nume="Prajitura cu mere si biscuiti" data-price="300">
 <div class="badge">Nou</div>
@@ -100,18 +107,22 @@ Navighează la Produse pentru a comanda cozonacul preferat!</p>
 <h3>Prajitură cu mere și biscuiți</h3>
 <p>Straturi delicate de mere caramelizate cu biscuiți crocanți și cremă fină.</p>
 <p>Preț: 300 RON</p>
-<button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
-<button data-plata="Plată online" class="pay-btn">Plată online</button>
+<button class="add-cart-btn">Adaugă în coș</button>
 </div>
 <div class="cozonac" data-nume="Prajitura ciocolată și nucă" data-price="300">
 <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Prajitura ciocolată și nucă">
 <h3>Prajitura ciocolată și nucă</h3>
 <p>Blat de ciocolată, cremă fină de unt și nucă pentru adevărații iubitori de dulciuri.</p>
 <p>Preț: 300 RON</p>
-<button data-plata="Cash la livrare" class="pay-btn">Cash la livrare</button>
-<button data-plata="Plată online" class="pay-btn">Plată online</button>
+<button class="add-cart-btn">Adaugă în coș</button>
 </div>
 </div>
+</section>
+
+<section id="cartSection">
+<h2>Cosul meu</h2>
+<div id="cartContainer"></div>
+<button class="pay-btn" id="checkoutBtn">Finalizează comanda</button>
 </section>
 
 <section id="despre">
@@ -151,8 +162,11 @@ Clienții noștri pot fi siguri că primesc întotdeauna produse de cea mai îna
 <label>Cod poștal:</label><input type="text" id="codpostal" required>
 <label>Telefon:</label><input type="text" id="telefon" required>
 <label>Email:</label><input type="email" id="emailClient" required>
-<label>Cantitate:</label><input type="number" id="cantitate" min="1" value="1" required>
-<p>Total de plată: <span id="totalDisplay">0</span> RON</p>
+<label>Metoda de plată:</label>
+<select id="paymentMethod" required>
+<option value="Cash la livrare">Cash la livrare</option>
+<option value="Plată online">Plată online</option>
+</select>
 <button type="submit" class="pay-btn" id="submitOrder">Trimite comanda</button>
 </form>
 </div>
@@ -167,17 +181,16 @@ Clienții noștri pot fi siguri că primesc întotdeauna produse de cea mai îna
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@latest/dist/email.min.js"></script>
 <script>
-// EmailJS init
 emailjs.init('L-7wK8ifbopduze-j');
 
-// Navigare secțiuni + hash
+// Navigare secțiuni
 const sections = {
   home: document.getElementById('homeSection'),
   produse: document.getElementById('produse'),
   despre: document.getElementById('despre'),
-  contact: document.getElementById('contact')
+  contact: document.getElementById('contact'),
+  cart: document.getElementById('cartSection')
 };
-
 function showSection(sec){
   for(let key in sections) sections[key].classList.remove('active');
   sections[sec].classList.add('active');
@@ -188,6 +201,7 @@ document.getElementById('linkHome').addEventListener('click', ()=>showSection('h
 document.getElementById('linkProduse').addEventListener('click', ()=>showSection('produse'));
 document.getElementById('linkDespre').addEventListener('click', ()=>showSection('despre'));
 document.getElementById('linkContact').addEventListener('click', ()=>showSection('contact'));
+document.getElementById('openCart').addEventListener('click', ()=>showSection('cart'));
 
 window.addEventListener('load', ()=>{
   const hash = location.hash.replace('#','');
@@ -200,13 +214,62 @@ window.addEventListener('popstate', ()=>{
   else showSection('home');
 });
 
-// Comandă popup + email
-let currentProduct='', currentPayment='', currentPrice=0;
+// Cos
+let cart = [];
+const cartContainer = document.getElementById('cartContainer');
+const cartCount = document.getElementById('cartCount');
+
+function updateCartUI(){
+  cartCount.textContent = cart.reduce((sum,item)=>sum+item.cantitate,0);
+  if(cart.length === 0) cartContainer.innerHTML = "<p>Cosul este gol.</p>";
+  else {
+    let html = `<table><tr><th>Produs</th><th>Pret</th><th>Cantitate</th><th>Subtotal</th><th>Sterge</th></tr>`;
+    cart.forEach((item,index)=>{
+      html+=`<tr>
+        <td>${item.nume}</td>
+        <td>${item.price} RON</td>
+        <td><input type="number" min="1" value="${item.cantitate}" data-index="${index}" class="qtyInput"></td>
+        <td>${item.price*item.cantitate} RON</td>
+        <td><button class="removeBtn" data-index="${index}">X</button></td>
+      </tr>`;
+    });
+    const total = cart.reduce((sum,item)=>sum+item.price*item.cantitate,0);
+    html+=`<tr><th colspan="3">Total</th><th colspan="2">${total} RON</th></tr></table>`;
+    cartContainer.innerHTML = html;
+
+    document.querySelectorAll('.qtyInput').forEach(input=>{
+      input.addEventListener('change', ()=>{
+        const idx = input.dataset.index;
+        const val = parseInt(input.value);
+        if(val>0) { cart[idx].cantitate=val; updateCartUI(); }
+      });
+    });
+    document.querySelectorAll('.removeBtn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        cart.splice(btn.dataset.index,1); updateCartUI();
+      });
+    });
+  }
+}
+
+document.querySelectorAll('.add-cart-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const cozonac = btn.closest('.cozonac');
+    const nume = cozonac.dataset.nume;
+    const price = Number(cozonac.dataset.price);
+    const exist = cart.find(p=>p.nume===nume);
+    if(exist) exist.cantitate++;
+    else cart.push({nume, price, cantitate:1});
+    updateCartUI();
+    showNotification(`${nume} a fost adăugat în coș.`, "#5a2d0c");
+  });
+});
+
+// Checkout
+let currentPayment = 'Cash la livrare';
 const popup=document.getElementById('popupForm');
 const closePopup=document.getElementById('closePopup');
 const notification=document.getElementById('notification');
-const totalDisplay=document.getElementById('totalDisplay');
-const cantitateInput=document.getElementById('cantitate');
 
 function showNotification(msg,color="#d77a5b"){
   notification.style.backgroundColor=color;
@@ -215,23 +278,14 @@ function showNotification(msg,color="#d77a5b"){
   setTimeout(()=>{notification.style.display="none";},4000);
 }
 
-document.querySelectorAll('.pay-btn').forEach(btn=>{
-  if(btn.id==='submitOrder') return;
-  btn.addEventListener('click',()=>{
-    const cozonac=btn.closest('.cozonac');
-    currentProduct=cozonac.dataset.nume;
-    currentPrice=Number(cozonac.dataset.price);
-    currentPayment=btn.dataset.plata;
-    document.getElementById('orderForm').reset();
-    updateTotal();
-    popup.classList.add('active');
-  });
+document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+  if(cart.length===0){ showNotification("Cosul este gol!", "red"); return; }
+  popup.classList.add('active');
 });
 
+// Popup comanda
 closePopup.addEventListener('click',()=>popup.classList.remove('active'));
-window.addEventListener('click',e=>{if(e.target===popup) popup.classList.remove('active');});
-function updateTotal(){ const cant=Number(cantitateInput.value)||1; totalDisplay.textContent=currentPrice*cant; }
-cantitateInput.addEventListener('input',updateTotal);
+window.addEventListener('click', e=>{if(e.target===popup) popup.classList.remove('active');});
 
 document.getElementById('orderForm').addEventListener('submit', async e=>{
   e.preventDefault();
@@ -245,27 +299,43 @@ document.getElementById('orderForm').addEventListener('submit', async e=>{
   const codpostal=document.getElementById('codpostal').value.trim();
   const telefon=document.getElementById('telefon').value.trim();
   const emailClient=document.getElementById('emailClient').value.trim();
-  const cantitate=Number(document.getElementById('cantitate').value.trim());
+  currentPayment=document.getElementById('paymentMethod').value;
 
-  if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient||cantitate<=0){
+  if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient){
     showNotification('Completează toate câmpurile corect!','red');
     return;
   }
 
+  const total = cart.reduce((sum,item)=>sum+item.price*item.cantitate,0);
+
   if(currentPayment==='Plată online'){
-    alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${currentPrice*cantitate} RON\nApasă OK după efectuarea plății`);
+    alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${total} RON\nApasă OK după efectuarea plății`);
   }
 
-  // Email către client
-  const templateParamsClient = { to_email: emailClient, nume, prenume, produs: currentProduct, cantitate, total_plata: currentPrice*cantitate, metoda_plata: currentPayment };
+  function getCartText(){ return cart.map(item=>`${item.nume} - Cantitate: ${item.cantitate} - Preț unitar: ${item.price} RON`).join('\n'); }
+
+  // Email client
+  const templateParamsClient = {
+    to_email: emailClient,
+    nume, prenume,
+    produse: getCartText(),
+    total_plata: total,
+    metoda_plata: currentPayment
+  };
   await emailjs.send('service_rvnfvip','template_g7g6e4w',templateParamsClient).catch(()=>{});
 
-  // Email către proprietar
-  const templateParamsOwner = { nume, prenume, strada, numar, localitate, judet, tara, codpostal, telefon, emailClient, produs: currentProduct, cantitate, total_plata: currentPrice*cantitate, metoda_plata: currentPayment };
+  // Email owner
+  const templateParamsOwner = {
+    nume, prenume, strada, numar, localitate, judet, tara, codpostal, telefon, emailClient,
+    produse: getCartText(),
+    total_plata: total,
+    metoda_plata: currentPayment
+  };
   await emailjs.send('service_rvnfvip','template_6epkz6a',templateParamsOwner).catch(()=>{});
 
   showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
   popup.classList.remove('active');
+  cart = []; updateCartUI();
 });
 
 // Lightbox
