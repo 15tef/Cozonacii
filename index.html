@@ -4,186 +4,215 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cozonaci de Vânzare</title>
+<meta name="description" content="Cozonaci și prăjituri tradiționale făcute în casă. Comandă online produse proaspete și delicioase!">
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background: #fff5ed; color:#333; scroll-behavior: smooth; }
-h1,h2,h3 { margin:0; }
-a { text-decoration:none; }
-header { text-align:center; padding: 50px 20px; background: linear-gradient(135deg,#d8b494,#f4e1d2); color:white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
-header h1 { font-size: 3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);}
-header p { font-size:1.2em; margin-top:10px; position:relative; }
-.cart-btn { position:absolute; top:20px; right:20px; background:#b85a40; color:white; padding:10px 15px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; }
-.cart-btn:hover { background:#d77a5b; }
+  /* ===== Reset & base ===== */
+  :root{
+    --bg:#fff5ed; --brand:#d77a5b; --accent:#b85a40; --muted:#d8b494; --text:#333;
+  }
+  *{box-sizing:border-box}
+  body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+  img{max-width:100%; display:block}
+  main{max-width:1100px;margin:0 auto}
 
-nav { display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:bold; position:sticky; top:0; z-index:100; }
-nav a { color:#5a2d0c; transition: 0.3s; cursor:pointer; }
-nav a:hover, nav a.active { color:#d77a5b; }
+  /* ===== Header ===== */
+  header{position:relative;text-align:center;padding:50px 20px;background: linear-gradient(135deg,#d8b494,#f4e1d2); color:white; box-shadow:0 5px 15px rgba(0,0,0,0.08)}
+  header h1{font-size:2.6rem; margin-bottom:6px}
+  header p{font-size:1.05rem; margin:0}
+  .cart-btn{position:absolute; top:20px; right:20px; background:var(--accent); color:white; padding:10px 15px; border:none; border-radius:12px; cursor:pointer; font-weight:700}
+  .cart-btn:focus{outline:3px solid rgba(255,255,255,0.3)}
 
-section { padding:30px; text-align:center; display:none; opacity:0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-section.active { display:block; opacity:1; transform: translateY(0); }
+  /* ===== Nav ===== */
+  nav{display:flex; justify-content:center; gap:25px; background:#f4e1d2; padding:12px 0; font-weight:700; position:sticky; top:0; z-index:100}
+  nav a{color:#5a2d0c; cursor:pointer; text-decoration:none; padding:6px 10px; border-radius:6px}
+  nav a:hover, nav a.active{color:var(--brand); background:transparent}
 
-#produse .produse-container { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; }
-.cozonac {
-  position:relative;
-  background:white;
-  border-radius:15px;
-  overflow:hidden;
-  width:260px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-.cozonac:hover { transform: translateY(-10px) scale(1.03); box-shadow:0 20px 35px rgba(0,0,0,0.25); filter: brightness(1.05);}
-.cozonac img { width:100%; height:200px; object-fit:cover; cursor:pointer; transition: transform 0.3s; }
-.cozonac img:hover { transform: scale(1.05); }
-.cozonac h3 { margin:10px 0 5px; }
-.cozonac p { margin:5px 0; font-size:0.95em; color:#555; text-align:center; }
-.add-cart-btn { margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:bold; cursor:pointer; transition:0.3s; background: linear-gradient(90deg,#d77a5b,#b85a40); color:white; }
-.add-cart-btn:hover { background: linear-gradient(90deg,#b85a40,#d77a5b); }
+  /* ===== Sections (hidden by default) ===== */
+  section{padding:30px; text-align:center; display:none; opacity:0; transform:translateY(20px); transition:opacity .35s ease, transform .35s ease;}
+  section.active{display:block; opacity:1; transform:translateY(0)}
 
-.badge { position:absolute; top:10px; left:10px; background:#d77a5b; color:white; padding:5px 10px; border-radius:12px; font-size:0.8em; font-weight:bold; }
+  /* ===== Products ===== */
+  .produse-container{display:flex; flex-wrap:wrap; justify-content:center; gap:25px}
+  .cozonac{position:relative; background:white; border-radius:15px; overflow:hidden; width:260px; box-shadow:0 8px 20px rgba(0,0,0,0.12); transition:transform .25s, box-shadow .25s, filter .25s; display:flex; flex-direction:column; align-items:center}
+  .cozonac:hover{transform:translateY(-10px) scale(1.02); box-shadow:0 20px 35px rgba(0,0,0,0.18)}
+  .cozonac img{width:100%; height:200px; object-fit:cover; cursor:pointer}
+  .cozonac h3{margin:10px 0 5px}
+  .cozonac p{margin:5px 0; font-size:.95rem; color:#555; text-align:center}
+  .add-cart-btn{margin:8px 0; padding:12px 20px; width:90%; border:none; border-radius:25px; font-weight:700; cursor:pointer; background:linear-gradient(90deg,var(--brand),var(--accent)); color:#fff}
+  .add-cart-btn:hover{filter:brightness(.98)}
 
-.popup-form { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:flex-start; padding-top:20px; z-index:1000; opacity:0; transition:0.3s; overflow-y:auto; }
-.popup-form.active { display:flex; opacity:1; }
-.popup-content { background:#fff5ed; padding:15px; border-radius:15px; width:90%; max-width:400px; text-align:left; position:relative; transform:scale(0.85); transition:0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.2); }
-.popup-form.active .popup-content { transform:scale(1); }
-.popup-content h3 { text-align:center; margin-bottom:15px; color:#d77a5b;}
-.popup-content label { display:block; margin-top:10px; font-weight:bold; font-size:0.95em; }
-.popup-content input { width:90%; padding:6px 8px; margin-top:5px; border-radius:6px; border:1px solid #d8b494; font-size:0.95em; }
-.popup-content button { margin-top:15px; padding:10px; font-size:1em; width:100%; }
-.close-popup { position:absolute; top:15px; right:15px; cursor:pointer; font-weight:bold; font-size:22px; color:#d77a5b; }
-.notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#d77a5b; color:white; padding:15px 25px; border-radius:25px; display:none; z-index:2000; font-weight:bold; }
-footer { text-align:center; background:#d8b494; color:white; padding:25px; border-radius:20px 20px 0 0; margin-top:50px; }
+  .badge{position:absolute; top:10px; left:10px; background:var(--brand); color:white; padding:5px 10px; border-radius:12px; font-size:.8rem; font-weight:700}
 
-#lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:2000; }
-#lightbox img { max-width:90%; max-height:90%; border-radius:15px; }
-#closeLightbox { position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; }
+  /* ===== Popup form ===== */
+  .popup-form{display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); justify-content:center; align-items:flex-start; padding-top:20px; z-index:1200; opacity:0; transition:opacity .2s}
+  .popup-form.active{display:flex; opacity:1}
+  .popup-content{background:var(--bg); padding:18px; border-radius:14px; width:92%; max-width:420px; text-align:left; position:relative; box-shadow:0 10px 25px rgba(0,0,0,0.18)}
+  .popup-content h3{text-align:center; margin-bottom:10px; color:var(--brand)}
+  .popup-content label{display:block; margin-top:10px; font-weight:700; font-size:.95rem}
+  .popup-content input, .popup-content select{width:100%; padding:8px 10px; margin-top:6px; border-radius:6px; border:1px solid var(--muted); font-size:.95rem}
+  .popup-content button{margin-top:14px;padding:10px;font-size:1rem;width:100%; background:linear-gradient(90deg,var(--brand),var(--accent)); color:#fff; border:none; border-radius:8px; font-weight:700}
+  .close-popup{position:absolute; top:12px; right:12px; cursor:pointer; font-size:20px; color:var(--brand); background:none; border:none}
 
-#cartSection table { width:100%; border-collapse: collapse; margin-top:15px; }
-#cartSection th, #cartSection td { border:1px solid #d8b494; padding:8px; text-align:center; }
-#cartSection th { background:#f4e1d2; }
-#cartSection input { width:60px; text-align:center; }
+  /* ===== Notification ===== */
+  .notification{position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--brand); color:#fff; padding:12px 20px; border-radius:25px; display:none; z-index:2000; font-weight:700}
+  .notification.show{display:block}
 
-@media(max-width:600px){ .popup-content { width:95%; padding:15px; } }
+  /* ===== Lightbox ===== */
+  #lightbox{display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); justify-content:center; align-items:center; z-index:2000}
+  #lightbox.active{display:flex}
+  #lightbox img{max-width:92%; max-height:92%; border-radius:12px}
+  #closeLightbox{position:absolute; top:18px; right:28px; font-size:36px; color:#fff; background:none; border:none; cursor:pointer}
+
+  /* ===== Cart table ===== */
+  #cartContainer table{width:100%; border-collapse:collapse; margin-top:12px}
+  #cartContainer th, #cartContainer td{border:1px solid var(--muted); padding:8px; text-align:center}
+  #cartContainer th{background:#f4e1d2}
+  .qtyInput{width:60px; text-align:center}
+
+  /* ===== Footer ===== */
+  footer{text-align:center; background:var(--muted); color:white; padding:18px; margin-top:30px; border-radius:12px 12px 0 0}
+
+  /* ===== Responsive ===== */
+  @media (max-width:700px){
+    header h1{font-size:1.6rem}
+    .cozonac{width:90%}
+    nav{flex-wrap:wrap}
+  }
+
+  /* prevent background scroll when popup open */
+  body.modal-open{overflow:hidden}
 </style>
 </head>
 <body>
 
-<header id="home">
-<h1>Cozonaci de Vânzare</h1>
-<p>Gusta tradiția, simte aroma!</p>
-<button class="cart-btn" id="openCart">Cosul meu (<span id="cartCount">0</span>)</button>
+<header id="home" role="banner">
+  <h1>Cozonaci de Vânzare</h1>
+  <p>Gusta tradiția, simte aroma!</p>
+  <button class="cart-btn" id="openCart" aria-controls="cartSection" aria-expanded="false">Cosul meu (<span id="cartCount">0</span>)</button>
 </header>
 
-<nav>
-<a id="linkHome">Home</a>
-<a id="linkProduse">Produse</a>
-<a id="linkDespre">Despre noi</a>
-<a id="linkContact">Contact</a>
+<nav role="navigation" aria-label="Meniu principal">
+  <a id="linkHome" class="nav-link" data-target="home">Home</a>
+  <a id="linkProduse" class="nav-link" data-target="produse">Produse</a>
+  <a id="linkDespre" class="nav-link" data-target="despre">Despre noi</a>
+  <a id="linkContact" class="nav-link" data-target="contact">Contact</a>
 </nav>
 
-<section id="homeSection" class="active">
-<h2>Bine ați venit pe site-ul nostru!</h2>
-<p>Descoperă gustul autentic al cozonacilor de casă, preparați cu ingrediente naturale și multă pasiune.<br>
-Navighează la Produse pentru a comanda cozonacul preferat!</p>
-<img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonaci" style="width:300px; border-radius:15px; margin-top:20px;">
-</section>
+<main>
+  <section id="homeSection" class="active" aria-labelledby="homeHeader">
+    <h2 id="homeHeader">Bine ați venit pe site-ul nostru!</h2>
+    <p>Descoperă gustul autentic al cozonacilor de casă, preparați cu ingrediente naturale și multă pasiune.<br>
+    Navighează la Produse pentru a comanda cozonacul preferat!</p>
+    <!-- kept original image URL and alt -->
+    <img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonaci" style="width:300px; border-radius:15px; margin-top:20px; display:block; margin-left:auto; margin-right:auto;">
+  </section>
 
-<section id="produse">
-<h2>Produsele noastre</h2>
-<div class="produse-container">
-<div class="cozonac" data-nume="Cozonac Clasic" data-price="100">
-<div class="badge">Cel mai vândut</div>
-<img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonac Clasic">
-<h3>Cozonac Clasic</h3>
-<p>Cozonac pufos cu aromă de vanilie, ideal pentru sărbători sau cadouri.</p>
-<p>Preț: 100 RON</p>
-<button class="add-cart-btn">Adaugă în coș</button>
-</div>
-<div class="cozonac" data-nume="Prajitura cu mere si biscuiti" data-price="300">
-<div class="badge">Nou</div>
-<img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%201.jpg?raw=true" alt="Prajitura cu mere si biscuiti">
-<h3>Prajitură cu mere și biscuiți</h3>
-<p>Straturi delicate de mere caramelizate cu biscuiți crocanți și cremă fină.</p>
-<p>Preț: 300 RON</p>
-<button class="add-cart-btn">Adaugă în coș</button>
-</div>
-<div class="cozonac" data-nume="Prajitura ciocolată și nucă" data-price="300">
-<img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Prajitura ciocolată și nucă">
-<h3>Prajitura ciocolată și nucă</h3>
-<p>Blat de ciocolată, cremă fină de unt și nucă pentru adevărații iubitori de dulciuri.</p>
-<p>Preț: 300 RON</p>
-<button class="add-cart-btn">Adaugă în coș</button>
-</div>
-</div>
-</section>
+  <section id="produse" aria-labelledby="produseHeader">
+    <h2 id="produseHeader">Produsele noastre</h2>
+    <div class="produse-container" id="produseContainer">
+      <div class="cozonac" data-id="cozonac-clasic" data-nume="Cozonac Clasic" data-price="100">
+        <div class="badge">Cel mai vândut</div>
+        <img src="https://github.com/15tef/Cozonacii/blob/main/cozonaci%20de%20casa.jpg?raw=true" alt="Cozonac Clasic">
+        <h3>Cozonac Clasic</h3>
+        <p>Cozonac pufos cu aromă de vanilie, ideal pentru sărbători sau cadouri.</p>
+        <p>Preț: 100 RON</p>
+        <button class="add-cart-btn">Adaugă în coș</button>
+      </div>
 
-<section id="cartSection">
-<h2>Cosul meu</h2>
-<div id="cartContainer"></div>
-<button class="pay-btn" id="checkoutBtn">Finalizează comanda</button>
-</section>
+      <div class="cozonac" data-id="prajitura-mere" data-nume="Prajitura cu mere si biscuiti" data-price="300">
+        <div class="badge">Nou</div>
+        <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%201.jpg?raw=true" alt="Prajitura cu mere si biscuiti">
+        <h3>Prajitură cu mere și biscuiți</h3>
+        <p>Straturi delicate de mere caramelizate cu biscuiți crocanți și cremă fină.</p>
+        <p>Preț: 300 RON</p>
+        <button class="add-cart-btn">Adaugă în coș</button>
+      </div>
 
-<section id="despre">
-<h2>Despre noi</h2>
-<p>La Cozonaci de Vânzare ne concentrăm pe calitatea fiecărui produs.<br>
-Folosim doar ingrediente naturale, fără conservanți sau aditivi.<br>
-Fiecare cozonac și prăjitură este pregătit cu atenție, respectând rețete tradiționale și tehnici de coacere care păstrează aroma autentică.<br>
-Scopul nostru este să oferim clienților experiența gustului autentic de acasă.<br>
-Produsele sunt proaspete, moi și parfumate.<br>
-Ne mândrim cu faptul că fiecare comandă este tratată cu seriozitate, iar livrarea este rapidă și sigură.<br>
-Clienții noștri pot fi siguri că primesc întotdeauna produse de cea mai înaltă calitate, pregătite cu pasiune și grijă pentru detalii.</p>
-</section>
+      <div class="cozonac" data-id="prajitura-cioco" data-nume="Prajitura ciocolată și nucă" data-price="300">
+        <img src="https://github.com/15tef/Cozonacii/blob/main/prajitura%202.jpg?raw=true" alt="Prajitura ciocolată și nucă">
+        <h3>Prajitura ciocolată și nucă</h3>
+        <p>Blat de ciocolată, cremă fină de unt și nucă pentru adevărații iubitori de dulciuri.</p>
+        <p>Preț: 300 RON</p>
+        <button class="add-cart-btn">Adaugă în coș</button>
+      </div>
+    </div>
+  </section>
 
-<section id="contact">
-<h2>Contact</h2>
-<p>Telefon: 0732 920 255</p>
-<p>Email: a.stef89@yahoo.com</p>
-<p>Adresa: Str. Malu Spart 1, București, România</p>
-</section>
+  <section id="cartSection" aria-labelledby="cartHeader">
+    <h2 id="cartHeader">Cosul meu</h2>
+    <div id="cartContainer" aria-live="polite"></div>
+    <button class="pay-btn" id="checkoutBtn" style="margin-top:12px;padding:10px 18px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff;font-weight:700;">Finalizează comanda</button>
+  </section>
+
+  <section id="despre" aria-labelledby="despreHeader">
+    <h2 id="despreHeader">Despre noi</h2>
+    <p>La Cozonaci de Vânzare ne concentrăm pe calitatea fiecărui produs.<br>
+    Folosim doar ingrediente naturale, fără conservanți sau aditivi.<br>
+    Fiecare cozonac și prăjitură este pregătit cu atenție, respectând rețete tradiționale și tehnici de coacere care păstrează aroma autentică.<br>
+    Scopul nostru este să oferim clienților experiența gustului autentic de acasă.<br>
+    Produsele sunt proaspete, moi și parfumate.<br>
+    Ne mândrim cu faptul că fiecare comandă este tratată cu seriozitate, iar livrarea este rapidă și sigură.<br>
+    Clienții noștri pot fi siguri că primesc întotdeauna produse de cea mai înaltă calitate, pregătite cu pasiune și grijă pentru detalii.</p>
+  </section>
+
+  <section id="contact" aria-labelledby="contactHeader">
+    <h2 id="contactHeader">Contact</h2>
+    <p>Telefon: 0732 920 255</p>
+    <p>Email: a.stef89@yahoo.com</p>
+    <p>Adresa: Str. Malu Spart 1, București, România</p>
+  </section>
+</main>
 
 <footer>
-<p>&copy; 2025 Cozonaci de Vânzare. Toate drepturile rezervate.</p>
+  <p>&copy; 2025 Cozonaci de Vânzare. Toate drepturile rezervate.</p>
 </footer>
 
-<div class="popup-form" id="popupForm">
-<div class="popup-content">
-<span class="close-popup" id="closePopup">&times;</span>
-<h3>Comandă produs</h3>
-<form id="orderForm">
-<label>Nume:</label><input type="text" id="nume" required>
-<label>Prenume:</label><input type="text" id="prenume" required>
-<label>Strada:</label><input type="text" id="strada" required>
-<label>Număr:</label><input type="text" id="numar" required>
-<label>Localitate:</label><input type="text" id="localitate" required>
-<label>Județ:</label><input type="text" id="judet" required>
-<label>Țară:</label><input type="text" id="tara" required>
-<label>Cod poștal:</label><input type="text" id="codpostal" required>
-<label>Telefon:</label><input type="text" id="telefon" required>
-<label>Email:</label><input type="email" id="emailClient" required>
-<label>Metoda de plată:</label>
-<select id="paymentMethod" required>
-<option value="Cash la livrare">Cash la livrare</option>
-<option value="Plată online">Plată online</option>
-</select>
-<button type="submit" class="pay-btn" id="submitOrder">Trimite comanda</button>
-</form>
-</div>
-</div>
-
-<div class="notification" id="notification"></div>
-
-<div id="lightbox">
-  <span id="closeLightbox">&times;</span>
-  <img id="lightboxImg" src="">
+<!-- POPUP ORDER -->
+<div class="popup-form" id="popupForm" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="popup-content">
+    <button class="close-popup" id="closePopup" aria-label="Închide formularul">&times;</button>
+    <h3>Comandă produs</h3>
+    <form id="orderForm" novalidate>
+      <label>Nume:</label><input type="text" id="nume" required>
+      <label>Prenume:</label><input type="text" id="prenume" required>
+      <label>Strada:</label><input type="text" id="strada" required>
+      <label>Număr:</label><input type="text" id="numar" required>
+      <label>Localitate:</label><input type="text" id="localitate" required>
+      <label>Județ:</label><input type="text" id="judet" required>
+      <label>Țară:</label><input type="text" id="tara" required>
+      <label>Cod poștal:</label><input type="text" id="codpostal" required>
+      <label>Telefon:</label><input type="text" id="telefon" required placeholder="07XXXXXXXX">
+      <label>Email:</label><input type="email" id="emailClient" required>
+      <label>Metoda de plată:</label>
+      <select id="paymentMethod" required>
+        <option value="Cash la livrare">Cash la livrare</option>
+        <option value="Plată online">Plată online</option>
+      </select>
+      <button type="submit" class="pay-btn" id="submitOrder">Trimite comanda</button>
+    </form>
+  </div>
 </div>
 
+<div class="notification" id="notification" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" aria-hidden="true">
+  <button id="closeLightbox" aria-label="Închide imaginea">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- emailjs (kept as in your original) -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@latest/dist/email.min.js"></script>
-<script>
-emailjs.init('L-7wK8ifbopduze-j');
 
-// Navigare secțiuni
+<script>
+/* ========= APP SCRIPT (single-file, modular style) ========= */
+
+/* ==== Init emailjs (original key left intact) ==== */
+if(window.emailjs){
+  try{ emailjs.init('L-7wK8ifbopduze-j'); } catch(e){ console.warn('emailjs init failed', e); }
+}
+
+/* ==== DOM refs ==== */
 const sections = {
   home: document.getElementById('homeSection'),
   produse: document.getElementById('produse'),
@@ -191,168 +220,226 @@ const sections = {
   contact: document.getElementById('contact'),
   cart: document.getElementById('cartSection')
 };
-function showSection(sec){
-  for(let key in sections) sections[key].classList.remove('active');
-  sections[sec].classList.add('active');
-  history.replaceState(null,'','#'+sec);
+const navLinks = document.querySelectorAll('.nav-link');
+const openCartBtn = document.getElementById('openCart');
+const cartCount = document.getElementById('cartCount');
+const produseContainer = document.getElementById('produseContainer');
+const cartContainer = document.getElementById('cartContainer');
+const checkoutBtn = document.getElementById('checkoutBtn');
+const popup = document.getElementById('popupForm');
+const closePopup = document.getElementById('closePopup');
+const notification = document.getElementById('notification');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const closeLightbox = document.getElementById('closeLightbox');
+const orderForm = document.getElementById('orderForm');
+
+/* ==== State & Storage ==== */
+let cart = [];
+const STORAGE_KEY = 'cozonaci_cart_v1';
+
+function saveCart(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
+function loadCart(){ try{ const s = localStorage.getItem(STORAGE_KEY); cart = s ? JSON.parse(s) : []; } catch(e){ cart = []; } }
+
+/* ==== Utilities ==== */
+function escapeHtml(s){ return String(s).replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;', '`':'&#x60;'}[c])); }
+function showNotification(msg, bg='#d77a5b'){ notification.textContent = msg; notification.style.background = bg; notification.classList.add('show'); notification.style.display='block'; setTimeout(()=>{ notification.style.display='none'; }, 3500); }
+
+/* ==== Navigation: unified handler (hash + click) ==== */
+function setActiveNav(targetKey){
+  navLinks.forEach(a => a.classList.toggle('active', a.dataset.target === targetKey));
 }
+function showSection(key){
+  Object.values(sections).forEach(s => s.classList.remove('active'));
+  if(sections[key]) { sections[key].classList.add('active'); setActiveNav(key); history.replaceState(null,'','#'+key); }
+  else { sections.home.classList.add('active'); setActiveNav('home'); history.replaceState(null,'','#home'); }
+}
+navLinks.forEach(a => a.addEventListener('click', ()=> showSection(a.dataset.target)));
 
-document.getElementById('linkHome').addEventListener('click', ()=>showSection('home'));
-document.getElementById('linkProduse').addEventListener('click', ()=>showSection('produse'));
-document.getElementById('linkDespre').addEventListener('click', ()=>showSection('despre'));
-document.getElementById('linkContact').addEventListener('click', ()=>showSection('contact'));
-document.getElementById('openCart').addEventListener('click', ()=>showSection('cart'));
-
+/* on load, check hash */
 window.addEventListener('load', ()=>{
   const hash = location.hash.replace('#','');
-  if(sections[hash]) showSection(hash);
-  else showSection('home');
+  showSection(hash || 'home');
+  loadCart();
+  updateCartUI();
 });
-window.addEventListener('popstate', ()=>{
-  const hash = location.hash.replace('#','');
-  if(sections[hash]) showSection(hash);
-  else showSection('home');
-});
+window.addEventListener('popstate', ()=>{ const hash = location.hash.replace('#',''); showSection(hash || 'home'); });
 
-// Cos
-let cart = [];
-const cartContainer = document.getElementById('cartContainer');
-const cartCount = document.getElementById('cartCount');
+/* open cart button -> show cart section */
+openCartBtn.addEventListener('click', ()=> { showSection('cart'); openCartBtn.setAttribute('aria-expanded','true'); });
 
+/* ==== CART UI & Event Delegation ==== */
 function updateCartUI(){
-  cartCount.textContent = cart.reduce((sum,item)=>sum+item.cantitate,0);
-  if(cart.length === 0) cartContainer.innerHTML = "<p>Cosul este gol.</p>";
-  else {
-    let html = `<table><tr><th>Produs</th><th>Pret</th><th>Cantitate</th><th>Subtotal</th><th>Sterge</th></tr>`;
-    cart.forEach((item,index)=>{
-      html+=`<tr>
-        <td>${item.nume}</td>
-        <td>${item.price} RON</td>
-        <td><input type="number" min="1" value="${item.cantitate}" data-index="${index}" class="qtyInput"></td>
-        <td>${item.price*item.cantitate} RON</td>
-        <td><button class="removeBtn" data-index="${index}">X</button></td>
-      </tr>`;
-    });
-    const total = cart.reduce((sum,item)=>sum+item.price*item.cantitate,0);
-    html+=`<tr><th colspan="3">Total</th><th colspan="2">${total} RON</th></tr></table>`;
-    cartContainer.innerHTML = html;
+  // update count
+  const totalQty = cart.reduce((s,i)=> s + i.cantitate, 0);
+  cartCount.textContent = totalQty;
+  saveCart();
 
-    document.querySelectorAll('.qtyInput').forEach(input=>{
-      input.addEventListener('change', ()=>{
-        const idx = input.dataset.index;
-        const val = parseInt(input.value);
-        if(val>0) { cart[idx].cantitate=val; updateCartUI(); }
-      });
-    });
-    document.querySelectorAll('.removeBtn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        cart.splice(btn.dataset.index,1); updateCartUI();
-      });
-    });
-  }
-}
-
-document.querySelectorAll('.add-cart-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const cozonac = btn.closest('.cozonac');
-    const nume = cozonac.dataset.nume;
-    const price = Number(cozonac.dataset.price);
-    const exist = cart.find(p=>p.nume===nume);
-    if(exist) exist.cantitate++;
-    else cart.push({nume, price, cantitate:1});
-    updateCartUI();
-    showNotification(`${nume} a fost adăugat în coș.`, "#5a2d0c");
-  });
-});
-
-// Checkout
-let currentPayment = 'Cash la livrare';
-const popup=document.getElementById('popupForm');
-const closePopup=document.getElementById('closePopup');
-const notification=document.getElementById('notification');
-
-function showNotification(msg,color="#d77a5b"){
-  notification.style.backgroundColor=color;
-  notification.textContent=msg;
-  notification.style.display="block";
-  setTimeout(()=>{notification.style.display="none";},4000);
-}
-
-document.getElementById('checkoutBtn').addEventListener('click', ()=>{
-  if(cart.length===0){ showNotification("Cosul este gol!", "red"); return; }
-  popup.classList.add('active');
-});
-
-// Popup comanda
-closePopup.addEventListener('click',()=>popup.classList.remove('active'));
-window.addEventListener('click', e=>{if(e.target===popup) popup.classList.remove('active');});
-
-document.getElementById('orderForm').addEventListener('submit', async e=>{
-  e.preventDefault();
-  const nume=document.getElementById('nume').value.trim();
-  const prenume=document.getElementById('prenume').value.trim();
-  const strada=document.getElementById('strada').value.trim();
-  const numar=document.getElementById('numar').value.trim();
-  const localitate=document.getElementById('localitate').value.trim();
-  const judet=document.getElementById('judet').value.trim();
-  const tara=document.getElementById('tara').value.trim();
-  const codpostal=document.getElementById('codpostal').value.trim();
-  const telefon=document.getElementById('telefon').value.trim();
-  const emailClient=document.getElementById('emailClient').value.trim();
-  currentPayment=document.getElementById('paymentMethod').value;
-
-  if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient){
-    showNotification('Completează toate câmpurile corect!','red');
+  if(cart.length === 0){
+    cartContainer.innerHTML = '<p>Cosul este gol.</p>';
     return;
   }
 
-  const total = cart.reduce((sum,item)=>sum+item.price*item.cantitate,0);
+  let html = `<table><tr><th>Produs</th><th>Pret</th><th>Cantitate</th><th>Subtotal</th><th>Sterge</th></tr>`;
+  cart.forEach((item, idx) => {
+    const subtotal = item.price * item.cantitate;
+    html += `<tr data-index="${idx}">
+      <td>${escapeHtml(item.nume)}</td>
+      <td>${item.price} RON</td>
+      <td><input class="qtyInput" type="number" min="1" value="${item.cantitate}" data-index="${idx}"></td>
+      <td>${subtotal} RON</td>
+      <td><button class="removeBtn" data-index="${idx}" aria-label="Șterge ${escapeHtml(item.nume)}">X</button></td>
+    </tr>`;
+  });
+  const total = cart.reduce((s,i) => s + i.price*i.cantitate, 0);
+  html += `<tr><th colspan="3">Total</th><th colspan="2">${total} RON</th></tr></table>`;
+  cartContainer.innerHTML = html;
+}
 
-  if(currentPayment==='Plată online'){
+/* delegation: handle quantity changes and remove */
+cartContainer.addEventListener('input', (e) => {
+  if(e.target.classList.contains('qtyInput')){
+    const idx = Number(e.target.dataset.index);
+    const val = parseInt(e.target.value, 10);
+    if(!isNaN(val) && val > 0){
+      cart[idx].cantitate = val;
+      updateCartUI();
+    }
+  }
+});
+cartContainer.addEventListener('click', (e) => {
+  if(e.target.classList.contains('removeBtn')){
+    const idx = Number(e.target.dataset.index);
+    cart.splice(idx, 1);
+    updateCartUI();
+  }
+});
+
+/* delegation on products container: add to cart & lightbox on image */
+document.getElementById('produseContainer').addEventListener('click', (e) => {
+  const addBtn = e.target.closest('.add-cart-btn');
+  if(addBtn){
+    const card = addBtn.closest('.cozonac');
+    const nume = card.dataset.nume;
+    const price = Number(card.dataset.price);
+    const id = card.dataset.id || (nume + '_' + price);
+    const existing = cart.find(p => p.id === id);
+    if(existing) existing.cantitate++;
+    else cart.push({ id, nume, price, cantitate: 1 });
+    updateCartUI();
+    showNotification(`${nume} a fost adăugat în coș.`, '#5a2d0c');
+    return;
+  }
+
+  // image -> lightbox
+  const img = e.target.closest('.cozonac img');
+  if(img){
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || '';
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden','false');
+  }
+});
+
+/* ==== Checkout & Popup handling ==== */
+checkoutBtn.addEventListener('click', () => {
+  if(cart.length === 0){ showNotification('Cosul este gol!', 'red'); return; }
+  popup.classList.add('active');
+  popup.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+});
+
+closePopup.addEventListener('click', closePopupFn);
+window.addEventListener('click', (e) => { if(e.target === popup) closePopupFn(); });
+window.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ if(popup.classList.contains('active')) closePopupFn(); if(lightbox.classList.contains('active')) closeLightboxFn(); } });
+
+function closePopupFn(){
+  popup.classList.remove('active');
+  popup.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+}
+
+/* ==== Lightbox ==== */
+closeLightbox.addEventListener('click', closeLightboxFn);
+lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightboxFn(); });
+
+function closeLightboxFn(){
+  lightbox.classList.remove('active');
+  lightbox.setAttribute('aria-hidden','true');
+  lightboxImg.src = '';
+}
+
+/* ==== Order form validation & email sending ==== */
+orderForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nume = document.getElementById('nume').value.trim();
+  const prenume = document.getElementById('prenume').value.trim();
+  const strada = document.getElementById('strada').value.trim();
+  const numar = document.getElementById('numar').value.trim();
+  const localitate = document.getElementById('localitate').value.trim();
+  const judet = document.getElementById('judet').value.trim();
+  const tara = document.getElementById('tara').value.trim();
+  const codpostal = document.getElementById('codpostal').value.trim();
+  const telefon = document.getElementById('telefon').value.trim();
+  const emailClient = document.getElementById('emailClient').value.trim();
+  const metoda = document.getElementById('paymentMethod').value;
+
+  if(!nume||!prenume||!strada||!numar||!localitate||!judet||!tara||!codpostal||!telefon||!emailClient){
+    showNotification('Completează toate câmpurile corect!','red'); return;
+  }
+
+  // phone validation: Romanian mobile e.g. 07XXXXXXXX
+  const phoneRe = /^07\d{8}$/;
+  if(!phoneRe.test(telefon)){ showNotification('Introduceți un număr de telefon valid (ex: 07XXXXXXXX).','red'); return; }
+
+  // postal code validation: Romanian 6 digits (adjust if needed)
+  const postalRe = /^\d{6}$/;
+  if(!postalRe.test(codpostal)){ showNotification('Cod poștal invalid (format: 6 cifre).','red'); return; }
+
+  const total = cart.reduce((s,i)=>s + i.price*i.cantitate, 0);
+
+  if(metoda === 'Plată online'){
     alert(`Plata online se face în contul Revolut:\nRO78 REVO 0000 1205 7231 3572\nTotal: ${total} RON\nApasă OK după efectuarea plății`);
   }
 
   function getCartText(){ return cart.map(item=>`${item.nume} - Cantitate: ${item.cantitate} - Preț unitar: ${item.price} RON`).join('\n'); }
 
-  // Email client
+  // Email to client
   const templateParamsClient = {
     to_email: emailClient,
     nume, prenume,
     produse: getCartText(),
     total_plata: total,
-    metoda_plata: currentPayment
+    metoda_plata: metoda
   };
-  await emailjs.send('service_rvnfvip','template_g7g6e4w',templateParamsClient).catch(()=>{});
+  try { if(window.emailjs) await emailjs.send('service_rvnfvip','template_g7g6e4w',templateParamsClient); } catch(e){ console.warn('email client failed', e); }
 
-  // Email owner
+  // Email to owner
   const templateParamsOwner = {
     nume, prenume, strada, numar, localitate, judet, tara, codpostal, telefon, emailClient,
     produse: getCartText(),
     total_plata: total,
-    metoda_plata: currentPayment
+    metoda_plata: metoda
   };
-  await emailjs.send('service_rvnfvip','template_6epkz6a',templateParamsOwner).catch(()=>{});
+  try { if(window.emailjs) await emailjs.send('service_rvnfvip','template_6epkz6a',templateParamsOwner); } catch(e){ console.warn('email owner failed', e); }
 
   showNotification('Comanda trimisă cu succes! Veți primi confirmarea comenzii pe email.','green');
-  popup.classList.remove('active');
+  closePopupFn();
   cart = []; updateCartUI();
 });
 
-// Lightbox
-const productImages = document.querySelectorAll('.cozonac img');
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-const closeLightbox = document.getElementById('closeLightbox');
+/* ==== On first run: load cart & wire initial buttons ==== */
+(function init(){
+  loadCart();
+  updateCartUI();
+  // wire add-cart-btns and product images already handled by delegation above
 
-productImages.forEach(img=>{
-  img.addEventListener('click',()=>{
-    lightboxImg.src = img.src;
-    lightbox.style.display='flex';
-  });
-});
-closeLightbox.addEventListener('click',()=>lightbox.style.display='none');
-lightbox.addEventListener('click', e=>{ if(e.target===lightbox) lightbox.style.display='none'; });
+  // ensure nav link text-target mapping matches keys
+  document.getElementById('linkHome').addEventListener('click', ()=> showSection('home'));
+  document.getElementById('linkProduse').addEventListener('click', ()=> showSection('produse'));
+  document.getElementById('linkDespre').addEventListener('click', ()=> showSection('despre'));
+  document.getElementById('linkContact').addEventListener('click', ()=> showSection('contact'));
+})();
 </script>
-
 </body>
 </html>
